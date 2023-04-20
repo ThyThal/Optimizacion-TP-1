@@ -10,9 +10,11 @@ public class TickGameplay : ManagedTickObject
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void DoTick()
     {
-        
+        CustomLogger.Log($"{gameObject.name} Do Tick!");
+        base.DoTick();
+
+
     }
 }

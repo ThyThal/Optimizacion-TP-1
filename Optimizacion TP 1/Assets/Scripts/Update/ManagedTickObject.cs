@@ -33,7 +33,7 @@ public class ManagedTickObject : MonoBehaviour
     /// <summary>
     /// Updates the Object.
     /// </summary>
-    public void DoTick()
+    public virtual void DoTick()
     {
         _lastUpdate = Time.time;
     }
