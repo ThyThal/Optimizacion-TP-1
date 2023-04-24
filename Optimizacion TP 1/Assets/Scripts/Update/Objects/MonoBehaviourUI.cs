@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonoBehaviourUI : ManagedTickObject
 {
-    [Range(30, 240)] public int TargetFPS = 30;
+    [Range(30, 240)] private int TargetFPS = 30;
 
     // Start is called before the first frame update
     void Awake()
