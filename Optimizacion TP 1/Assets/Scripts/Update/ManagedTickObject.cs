@@ -6,7 +6,7 @@ public class ManagedTickObject : MonoBehaviour
     /// Sets Target FPS.
     /// *Should be Read Only.*
     /// </summary>
-    [SerializeField] [Range(30, 240)] private int _targetFPS = 30;
+    private int _targetFPS = 30;
 
     private float _lastUpdate;
 
@@ -30,11 +30,29 @@ public class ManagedTickObject : MonoBehaviour
     /// </summary>
     public float GetDeltaTime => Time.time - GetLastUpdate;
 
+
+
     /// <summary>
     /// Updates the Object.
     /// </summary>
-    public virtual void DoTick()
+    public void DoTick()
     {
         _lastUpdate = Time.time;
+    }
+
+    /// <summary>
+    /// Override This Method to Implement The Awake.
+    /// </summary>
+    public void SetTargetFPS(int TargetFPS)
+    {
+        _targetFPS = Mathf.Clamp(TargetFPS, 30, 240);
+    }
+
+    /// <summary>
+    /// Override This Method to Implement The Update.
+    /// </summary>
+    public virtual void ManagedUpdate()
+    {
+
     }
 }

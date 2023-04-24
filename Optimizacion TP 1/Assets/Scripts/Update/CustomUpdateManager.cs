@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TickManager : MonoBehaviour
+public class CustomUpdateManager : MonoBehaviour
 {
-    private ManagedTickObject[] _managedTickObject;
+    [SerializeField] private ManagedTickObject[] _managedTickObject;
 
     private void Start()
     {
         // Finds all Tick Objects in the Scene, and Store them.
-        _managedTickObject = GetComponents<ManagedTickObject>();
+        _managedTickObject = FindObjectsOfType<ManagedTickObject>();
+
     }
 
     private void Update()
@@ -23,9 +24,12 @@ public class TickManager : MonoBehaviour
             // Update Object if Delta Time needed for FPS is Reached.
             if (currentObject.GetDeltaTime >= currentObject.GetTickInterval)
             {
+                #if ENABLE_LOGS
                 CustomLogger.Log($"{currentObject.gameObject.name}: Target FPS={currentObject.GetTargetFPS} | Tick Interval={currentObject.GetTickInterval}");
+                #endif
 
                 currentObject.DoTick();
+                currentObject.ManagedUpdate();
             }
         }
     }
