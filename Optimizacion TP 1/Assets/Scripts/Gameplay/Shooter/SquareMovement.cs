@@ -10,7 +10,7 @@ public class SquareMovement : MonoBehaviourGameplay
     [SerializeField] private float speed;
     [SerializeField] private GameObject[] wayPoints;
 
-    public UnityEvent OnTextChange = new UnityEvent();
+    
 
     public override void ManagedUpdate()
     {
@@ -19,12 +19,12 @@ public class SquareMovement : MonoBehaviourGameplay
         if (Vector2.Distance(transform.position, wayPoints[nextPoint].transform.position) < distance)
         {
             nextPoint++;
-            TextChange();
+            
 
             if (nextPoint >= wayPoints.Length)
             {
                 nextPoint = 0;
-                TextChange();
+                
             }
         }
         base.ManagedUpdate();
