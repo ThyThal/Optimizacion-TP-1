@@ -27,7 +27,6 @@ public class SquareMovement : MonoBehaviourGameplay
                 
             }
         }
-        base.ManagedUpdate();
     }
 
     public int TextChange()
