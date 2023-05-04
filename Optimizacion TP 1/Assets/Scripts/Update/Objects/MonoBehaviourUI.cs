@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonoBehaviourUI : ManagedTickObject
+public class MonoBehaviourUI : NewManagedTickObject
 {
-    [Range(30, 240)] private int TargetFPS = 30;
-
-    // Start is called before the first frame update
     void Awake()
     {
-        SetTargetFPS(TargetFPS);
+        Debug.Log("UI Object Awake");
+        NewCustomUpdateManager.Instance.CustomUpdateUI.AddObject(this);
+    }
+
+    void OnDestroy()
+    {
+        Debug.Log("UI Object Destroy");
+        NewCustomUpdateManager.Instance.CustomUpdateUI.RemoveObject(this);
     }
 }
