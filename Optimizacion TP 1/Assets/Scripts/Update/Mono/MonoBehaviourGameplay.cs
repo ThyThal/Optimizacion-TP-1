@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonoBehaviourGameplay : NewManagedTickObject
+public class MonoBehaviourGameplay : ManagedTickObject
 {
     void Awake()
     {
         Debug.Log("Gameplay Object Awake");
-        NewCustomUpdateManager.Instance.CustomUpdateGameplay.AddObject(this);
+        CustomUpdateManager.Instance.CustomUpdateGameplay.AddObject(this);
     }
 
     void OnDestroy()
     {
         Debug.Log("Gameplay Object Destroy");
-        NewCustomUpdateManager.Instance.CustomUpdateGameplay.RemoveObject(this);
+        CustomUpdateManager.Instance.CustomUpdateGameplay.RemoveObject(this);
     }
 }
