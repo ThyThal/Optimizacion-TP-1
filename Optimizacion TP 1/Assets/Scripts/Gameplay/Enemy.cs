@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Vector3 sizeHalfEnemy;
     [SerializeField] private LayerMask maskCollitionAround;
     [SerializeField] private Collider[] otherCollider = new Collider[3];
+    private int layerPlayer = 6;
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -22,18 +23,7 @@ public class Enemy : MonoBehaviour
         _dir = Vector3.forward;
         Move();
 
-        int hitCount = Physics.OverlapBoxNonAlloc(transform.position, sizeHalfEnemy, otherCollider,Quaternion.identity, maskCollitionAround);
-        for (int i = 0; i < hitCount; i++)
-        {
-            if(otherCollider[i].gameObject.layer == 6)
-            {
-                //ME DESTRUYO CON EL PLAYER
-                Destroy(this.gameObject);
-                Debug.Log("Hit CHOCASTE CON EL PLAYER " + otherCollider[i].gameObject.name);
-            }
-
-            ChangeDirection(otherCollider[i].gameObject.layer);
-        }
+        NonAllocColiider();
 
        
     }
@@ -52,28 +42,44 @@ public class Enemy : MonoBehaviour
             _dir = -Vector3.forward;
             Rotate(_dir);
         }
-        else if (layerWall == 8)
-        {
-            _dir = -Vector3.right;
-            Rotate(_dir);
-        }
-        else if (layerWall==8)
-        {
-            _dir = -Vector3.forward;
-            Rotate(_dir);
-        }
-        else if (layerWall==8)
-        {
-            _dir = Vector3.right;
-            Rotate(_dir);
-        }
+        //else if (¿)
+        //{
+        //    _dir = -Vector3.right;
+        //    Rotate(_dir);
+        //}
+        //else if ()
+        //{
+        //    _dir = -Vector3.forward;
+        //    Rotate(_dir);
+        //}
+        //else if (s)
+        //{
+        //    _dir = Vector3.right;
+        //    Rotate(_dir);
+        //}
     }
 
     public void Rotate(Vector3 lookDir)
     {
         transform.rotation = Quaternion.LookRotation(lookDir);
     }
+    
 
+    private void NonAllocColiider()
+    {
+        int hitCount = Physics.OverlapBoxNonAlloc(transform.position, sizeHalfEnemy, otherCollider, Quaternion.identity, maskCollitionAround);
+        for (int i = 0; i < hitCount; i++)
+        {
+            if (otherCollider[i].gameObject.layer == layerPlayer)
+            {
+                //ME DESTRUYO CON EL PLAYER
+                Destroy(this.gameObject);
+                Debug.Log("Hit CHOCASTE CON EL PLAYER " + otherCollider[i].gameObject.name);
+            }
+
+            ChangeDirection(otherCollider[i].gameObject.layer);
+        }
+    }
     public void Shoot()
     {
 
