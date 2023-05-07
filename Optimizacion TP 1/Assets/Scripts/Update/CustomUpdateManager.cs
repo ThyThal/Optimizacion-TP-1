@@ -47,7 +47,7 @@ public class CustomUpdateManager : MonoBehaviour
         if (customUpdate.GetDeltaTime >= customUpdate.GetTickInterval)
         {
             #if ENABLE_LOGS
-            CustomLogger.Log($"{customUpdate.GetName}: Target FPS={customUpdate.GetTargetFPS} | Tick Interval={customUpdate.GetTickInterval}");
+            //CustomLogger.Log($"{customUpdate.GetName}: Target FPS={customUpdate.GetTargetFPS} | Tick Interval={customUpdate.GetTickInterval}");
             #endif
 
             customUpdate.DoTick();
