@@ -9,18 +9,21 @@ public class Enemy : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
     Vector3 _dir;
     Rigidbody _rb;
+    //
     [SerializeField] private Vector3 sizeHalfEnemy;
     [SerializeField] private LayerMask maskCollitionAround;
     [SerializeField] private Collider[] otherCollider = new Collider[3];
+
     private int layerPlayer = 6;
+    private int layerWall=8;
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _dir = Vector3.forward;
     }
 
     void Update()
     {
-        _dir = Vector3.forward;
         Move();
 
         NonAllocColiider();
@@ -33,14 +36,16 @@ public class Enemy : MonoBehaviour
         _rb.velocity = _dir.normalized * speed;
     }
 
-    public void ChangeDirection(LayerMask layerWall)
+    public void ChangeDirection(LayerMask layerCheck)
     {
         // Cambiar direccion al chocar con una pared
-        if (layerWall == 8)
+        if (layerCheck == layerWall)
         {
-            Debug.Log("ENTRO");
+            //verificar derecha y si choca girar derecha(transform.Rotate)
             _dir = -Vector3.forward;
             Rotate(_dir);
+
+        
         }
         //else if (¿)
         //{
@@ -72,9 +77,8 @@ public class Enemy : MonoBehaviour
         {
             if (otherCollider[i].gameObject.layer == layerPlayer)
             {
-                //ME DESTRUYO CON EL PLAYER
-                Destroy(this.gameObject);
-                Debug.Log("Hit CHOCASTE CON EL PLAYER " + otherCollider[i].gameObject.name);
+                //ME DESTRUYO CON EL PLAYER -POOL-
+                gameObject.SetActive(false);
             }
 
             ChangeDirection(otherCollider[i].gameObject.layer);
