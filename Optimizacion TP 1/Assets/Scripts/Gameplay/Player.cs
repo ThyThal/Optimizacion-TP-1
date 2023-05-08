@@ -68,5 +68,15 @@ public class Player : MonoBehaviourGameplay
         transform.position = _spawnPoint;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        var enemy = collision.gameObject.GetComponent<Enemy>();
+        if(enemy != null)
+        {
+            Respawn();
+            enemy.Die();
+        }
+    }
+
 
 }

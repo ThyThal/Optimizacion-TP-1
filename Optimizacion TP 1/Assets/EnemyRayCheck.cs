@@ -37,7 +37,7 @@ public class EnemyRayCheck : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Wall"))
+        if (other.CompareTag("Wall") || other.CompareTag("Enemy"))
         {
             _obstructed = true;
         }
@@ -45,7 +45,7 @@ public class EnemyRayCheck : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Wall"))
+        if (other.CompareTag("Wall") || other.CompareTag("Enemy")) // Capaz haya problemas al hacer exit
         {
             _obstructed = false;
         }

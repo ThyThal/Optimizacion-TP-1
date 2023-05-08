@@ -61,6 +61,7 @@ MonoBehaviour:
   _collider: {fileID: 2143774217291077856}
   _obstructed: 0
   _rotateVector: {x: -1, y: 0, z: 0}
+  RotateDirection: 0
 --- !u!1 &3061358143102472417
 GameObject:
   m_ObjectHideFlags: 0
@@ -75,7 +76,7 @@ GameObject:
   - component: {fileID: 694733824}
   m_Layer: 7
   m_Name: NEW
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,22 +113,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a17805361a4600d4aa13b58f55ea9e5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  speed: 15
   shootFrequency: 0
   bulletPrefab: {fileID: 0}
   sizeHalfEnemy: {x: 0.5, y: 1, z: 0.5}
   maskCollitionAround:
     serializedVersion: 2
     m_Bits: 320
-  otherCollider:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  _directions:
-  - {fileID: 3061358142412004133}
-  - {fileID: 3061358142412004132}
-  - {fileID: 3061358142412004131}
-  - {fileID: 982941384}
+  _FREE: []
 --- !u!54 &3061358143102472423
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -218,6 +211,7 @@ MonoBehaviour:
   _collider: {fileID: 2416881420671535199}
   _obstructed: 0
   _rotateVector: {x: 0, y: 0, z: 1}
+  RotateDirection: 0
 --- !u!1 &4435073375631886783
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,6 +273,7 @@ MonoBehaviour:
   _collider: {fileID: 2694030181532643855}
   _obstructed: 0
   _rotateVector: {x: 0, y: 0, z: -1}
+  RotateDirection: 0
 --- !u!1 &6849911597110641432
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +335,7 @@ MonoBehaviour:
   _collider: {fileID: 8469113292398643969}
   _obstructed: 0
   _rotateVector: {x: 1, y: 0, z: 0}
+  RotateDirection: 0
 --- !u!1001 &3061358141576780265
 PrefabInstance:
   m_ObjectHideFlags: 0

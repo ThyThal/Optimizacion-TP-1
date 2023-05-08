@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
-
+        Destroy(gameObject);
     }
 
     void OnDrawGizmosSelected()
@@ -63,6 +63,10 @@ public class Enemy : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Wall") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
+        {
+            DoRotation();
+        }
+        else if(collision.collider.CompareTag("Enemy") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
         {
             DoRotation();
         }
