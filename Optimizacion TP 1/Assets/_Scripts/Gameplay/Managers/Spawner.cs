@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class Spawner : MonoBehaviour
+public class Spawner : MonoBehaviourGameplay
 {
     [SerializeField] private Collider _collider;
     [SerializeField] private bool _enabled = true;
