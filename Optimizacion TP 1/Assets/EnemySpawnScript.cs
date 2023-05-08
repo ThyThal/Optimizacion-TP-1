@@ -14,6 +14,7 @@ public class EnemySpawnScript : MonoBehaviour
     float timer;
     float enemyCreateTimer = 3f;
     float enemyDelaySpawn = 2f;
+    public int totalEnemys = 0;
 
     
 
@@ -36,6 +37,7 @@ public class EnemySpawnScript : MonoBehaviour
 
     void SpawnEnemy() 
     {
+        totalEnemys++;
         enemyHologram.SetActive(false);
         GetEnemy();
         TranformSelection();
