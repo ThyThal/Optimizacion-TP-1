@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviourGameplay
 {
     [SerializeField] float speed;
     [SerializeField] float shootFrequency;
@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
         _spawnPoint = transform.position;
     }
 
-    void Update()
+    public override void ManagedUpdate()
     {
         if (Input.GetKey(KeyCode.W))
         {
@@ -38,9 +38,13 @@ public class Player : MonoBehaviour
             _dir = Vector3.right;
             Rotate(_dir);
         }
-        else _dir = Vector3.zero;
 
-        Move();
+        else
+        {
+            _dir = Vector3.zero;
+            _rb.velocity = Vector3.zero;
+        }
+
     }
 
     public void Move()
@@ -51,6 +55,7 @@ public class Player : MonoBehaviour
     public void Rotate(Vector3 lookDir)
     {
         transform.rotation = Quaternion.LookRotation(lookDir);
+        Move();
     }
 
     public void Shoot()

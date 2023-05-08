@@ -87,22 +87,18 @@ public class Enemy : MonoBehaviour
         {
             case EnemyRayCheck.EnemyRotateDirection.Forward:
                 transform.rotation = Quaternion.LookRotation(transform.forward);
-                Debug.Log(EnemyRayCheck.EnemyRotateDirection.Forward);
                 return;
 
             case EnemyRayCheck.EnemyRotateDirection.Back:
                 transform.rotation = Quaternion.LookRotation(-transform.forward);
-                Debug.Log(EnemyRayCheck.EnemyRotateDirection.Back);
                 return;
 
             case EnemyRayCheck.EnemyRotateDirection.Left:
                 transform.rotation = Quaternion.LookRotation(-transform.right);
-                Debug.Log(EnemyRayCheck.EnemyRotateDirection.Left);
                 return;
 
             case EnemyRayCheck.EnemyRotateDirection.Right:
                 transform.rotation = Quaternion.LookRotation(transform.right);
-                Debug.Log(EnemyRayCheck.EnemyRotateDirection.Right);
                 return;
         }
     }
