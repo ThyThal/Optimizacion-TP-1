@@ -6,15 +6,16 @@ public class EnemySpawnScript : MonoBehaviour
 {
 
     [SerializeField]private GameObject enemyPrefab;
+    [SerializeField] private GameObject enemyHologram;
+    
     private List<GameObject> enemytPool = new List<GameObject>();
+    [SerializeField]private List<Transform> spawnPositons = new List<Transform>();
+    int indexSpawnPosition = 0;
     float timer;
-    float enemyCreateTimer = 5f;
+    float enemyCreateTimer = 3f;
+    float enemyDelaySpawn = 2f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    
 
     // Update is called once per frame
     void Update()
@@ -24,18 +25,31 @@ public class EnemySpawnScript : MonoBehaviour
         if(timer > enemyCreateTimer) 
         {
             timer = 0;
-            CreateEnemy();
+            
+            //activa el holograma para avisar al jugador de donde sale el proximo enemigo
+            ActiveHologram();
+            Invoke("SpawnEnemy", enemyDelaySpawn);
+            
+           
         }
     }
 
-    void CreateEnemy()
+    void SpawnEnemy() 
     {
-        
+        enemyHologram.SetActive(false);
+        GetEnemy();
+        TranformSelection();
+    }
+
+    void GetEnemy()
+    {
+        //toma un gameobject ya sea desactivado o creado
         GameObject enemy = GetPooledObject();
 
         if (enemy != null)
         {
-            enemy.transform.position = transform.position;
+            //establece la posicion inicial y lo activa
+            enemy.transform.position = spawnPositons[indexSpawnPosition].position;
             enemy.SetActive(true);
 
         }
@@ -61,5 +75,21 @@ public class EnemySpawnScript : MonoBehaviour
 
         return enemy;
 
+    }
+
+    void ActiveHologram() 
+    {
+        
+        enemyHologram.SetActive(true);
+        enemyHologram.transform.position = spawnPositons[indexSpawnPosition].position;
+    }
+
+    void TranformSelection() 
+    {
+        indexSpawnPosition = Random.Range(0, spawnPositons.Count - 1);
+        if (indexSpawnPosition >= spawnPositons.Count) 
+        {
+            indexSpawnPosition = 0;
+        }
     }
 }
