@@ -8,24 +8,28 @@ public class Enemy : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] float shootFrequency;
     [SerializeField] GameObject bulletPrefab;
-    Vector3 _dir;
     Rigidbody _rb;
     //
     [SerializeField] private Vector3 sizeHalfEnemy;
     [SerializeField] private LayerMask maskCollitionAround;
-    [SerializeField] private Collider[] otherCollider = new Collider[3];
 
+    [SerializeField] private List<EnemyRayCheck> _FREE;
 
+    private Dictionary<EnemyRayCheck.EnemyRotateDirection, EnemyRayCheck> _directionDic = new Dictionary<EnemyRayCheck.EnemyRotateDirection, EnemyRayCheck>();
 
-    // Wall Detection
-    [SerializeField] private EnemyRayCheck[] _directions;
+    private void Awake()
+    {
+        var a = GetComponentsInChildren<EnemyRayCheck>();
 
-    private int layerPlayer = 6;
-    private int layerWall=8;
+        foreach (var item in a)
+        {
+            _directionDic.Add(item.RotateDirection, item);
+        }
+    }
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _dir = Vector3.forward;
     }
 
     void Update()
@@ -35,7 +39,7 @@ public class Enemy : MonoBehaviour
 
     public void Move()
     {
-        _rb.velocity = _dir.normalized * speed;
+        _rb.velocity = transform.forward * speed;
     }
     
     public void Shoot()
@@ -58,7 +62,7 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Wall"))
+        if (collision.collider.CompareTag("Wall") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
         {
             DoRotation();
         }
@@ -66,19 +70,40 @@ public class Enemy : MonoBehaviour
 
     private void DoRotation()
     {
-        List<Vector3> _availableDirections = new List<Vector3>();
+        _FREE = new List<EnemyRayCheck>();
 
-        foreach (var enemyRay in _directions)
+        foreach (var enemyRay in _directionDic.Values)
         {
             if (!enemyRay.IsObstructed())
             {
-                _availableDirections.Add(enemyRay.GetRotateDirection);
+                _FREE.Add(enemyRay);
             }
         }
 
         // Get Random Direction and Rotate
-        transform.rotation = Quaternion.LookRotation(_availableDirections[Random.Range(0, _availableDirections.Count - 1)]);
+        var a = _FREE[Random.Range(0, _FREE.Count)];
 
-        Debug.Log("Do Rotation.");
+        switch (a.RotateDirection)
+        {
+            case EnemyRayCheck.EnemyRotateDirection.Forward:
+                transform.rotation = Quaternion.LookRotation(transform.forward);
+                Debug.Log(EnemyRayCheck.EnemyRotateDirection.Forward);
+                return;
+
+            case EnemyRayCheck.EnemyRotateDirection.Back:
+                transform.rotation = Quaternion.LookRotation(-transform.forward);
+                Debug.Log(EnemyRayCheck.EnemyRotateDirection.Back);
+                return;
+
+            case EnemyRayCheck.EnemyRotateDirection.Left:
+                transform.rotation = Quaternion.LookRotation(-transform.right);
+                Debug.Log(EnemyRayCheck.EnemyRotateDirection.Left);
+                return;
+
+            case EnemyRayCheck.EnemyRotateDirection.Right:
+                transform.rotation = Quaternion.LookRotation(transform.right);
+                Debug.Log(EnemyRayCheck.EnemyRotateDirection.Right);
+                return;
+        }
     }
 }

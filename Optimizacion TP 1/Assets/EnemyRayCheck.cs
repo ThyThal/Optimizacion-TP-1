@@ -8,6 +8,15 @@ public class EnemyRayCheck : MonoBehaviour
     [SerializeField] private SphereCollider _collider;
     [SerializeField] private bool _obstructed = false;
     [SerializeField] private Vector3 _rotateVector;
+    [SerializeField] public EnemyRotateDirection RotateDirection;
+
+    public enum EnemyRotateDirection
+    {
+        Forward,
+        Back,
+        Left,
+        Right
+    }
 
     public bool IsObstructed()
     {
