@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviourGameplay
 {
     [SerializeField] float speed;
     [SerializeField] float shootFrequency;
     [SerializeField] GameObject bulletPrefab;
-    Rigidbody _rb;
+    private Rigidbody _rb;
 
-    [SerializeField] private List<EnemyRayCheck> _FREE;
+    [SerializeField] private List<Renderer> _renderers;
+    [SerializeField] private float _spawnTime = 0f;
+    [SerializeField] private bool _enabled = false;
+
+    [SerializeField] private List<EnemyRayCheck> _availableDirections;
 
     private Dictionary<EnemyRayCheck.EnemyRotateDirection, EnemyRayCheck> _directionDic = new Dictionary<EnemyRayCheck.EnemyRotateDirection, EnemyRayCheck>();
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
+
         var a = GetComponentsInChildren<EnemyRayCheck>();
 
         foreach (var item in a)
@@ -29,9 +35,44 @@ public class Enemy : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
+    public override void ManagedUpdate()
     {
-        Move();       
+        if (_enabled)
+        {
+            Move();
+        }
+
+        else
+        {
+            if (_spawnTime >= 1)
+            {
+                // Create Normal Material.
+                foreach (var renderer in _renderers)
+                {
+                    Color currentColor = renderer.material.color;
+                    currentColor.a = 1f;
+                    renderer.material.color = currentColor;
+                }
+
+                _enabled = true;
+            }
+
+            _spawnTime += Time.deltaTime;
+        }
+    }
+
+    public void PreSpawn()
+    {
+        _enabled = false;
+        _spawnTime = 0;
+
+        // Create Ghost Material.
+        foreach (var renderer in _renderers)
+        {
+            Color currentColor = renderer.material.color;
+            currentColor.a = 0.25f;
+            renderer.material.color = currentColor;
+        }
     }
 
     public void Move()
@@ -46,15 +87,7 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
-        gameObject.SetActive(false);
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        // Draws a 5 unit long red line in front of the object
-        Gizmos.color = Color.red;
-        Vector3 direction = transform.TransformDirection(Vector3.forward) * 1;
-        Gizmos.DrawRay(transform.position, direction);
+        GameManager.Instance.EnemySpawner.EnemyPool.Recycle(this.gameObject);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -77,18 +110,18 @@ public class Enemy : MonoBehaviour
 
     private void DoRotation()
     {
-        _FREE = new List<EnemyRayCheck>();
+        _availableDirections = new List<EnemyRayCheck>();
 
         foreach (var enemyRay in _directionDic.Values)
         {
             if (!enemyRay.IsObstructed())
             {
-                _FREE.Add(enemyRay);
+                _availableDirections.Add(enemyRay);
             }
         }
 
         // Get Random Direction and Rotate
-        var a = _FREE[Random.Range(0, _FREE.Count)];
+        var a = _availableDirections[Random.Range(0, _availableDirections.Count)];
 
         switch (a.RotateDirection)
         {
