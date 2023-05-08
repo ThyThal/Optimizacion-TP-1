@@ -37,7 +37,17 @@ public class EnemyRayCheck : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Wall") || other.CompareTag("Enemy"))
+        if (other.CompareTag("Wall"))
+        {
+            _obstructed = true;
+        }
+
+        else if (other.CompareTag("Breakable"))
+        {
+            _obstructed = true;
+        }
+
+        else if (other.CompareTag("Enemy"))
         {
             _obstructed = true;
         }
@@ -45,7 +55,17 @@ public class EnemyRayCheck : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Wall") || other.CompareTag("Enemy")) // Capaz haya problemas al hacer exit
+        if (other.CompareTag("Wall"))
+        {
+            _obstructed = false;
+        }
+
+        else if (other.CompareTag("Breakable"))
+        {
+            _obstructed = false;
+        }
+
+        else if (other.CompareTag("Enemy"))
         {
             _obstructed = false;
         }

@@ -9,9 +9,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] float shootFrequency;
     [SerializeField] GameObject bulletPrefab;
     Rigidbody _rb;
-    //
-    [SerializeField] private Vector3 sizeHalfEnemy;
-    [SerializeField] private LayerMask maskCollitionAround;
 
     [SerializeField] private List<EnemyRayCheck> _FREE;
 
@@ -66,6 +63,12 @@ public class Enemy : MonoBehaviour
         {
             DoRotation();
         }
+
+        else if (collision.collider.CompareTag("Breakable") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
+        {
+            DoRotation();
+        }
+
         else if(collision.collider.CompareTag("Enemy") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
         {
             DoRotation();
