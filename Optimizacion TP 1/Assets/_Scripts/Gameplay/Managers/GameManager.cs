@@ -21,6 +21,14 @@ public class GameManager : MonoBehaviourGameplay
     }
 
     [SerializeField] private EnemySpawner enemySpawner;
+    [SerializeField] private Pool bulletSpawner;
 
     public EnemySpawner EnemySpawner => enemySpawner;
+    public Pool BulletPool => bulletSpawner;
+
+    public void SpawnBullet(Character.CharacterType owner)
+    {
+        var instance = bulletSpawner.GetFromPool();
+        instance.GetComponent<Bullet>().GenerateBullet(owner);
+    }
 }

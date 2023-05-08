@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Enemy : MonoBehaviourGameplay
+public class Enemy : Character
 {
     [SerializeField] float speed;
     [SerializeField] float shootFrequency;
@@ -65,6 +65,7 @@ public class Enemy : MonoBehaviourGameplay
     {
         _enabled = false;
         _spawnTime = 0;
+        Health.DoHeal(Health.MaxHealth);
 
         // Create Ghost Material.
         foreach (var renderer in _renderers)
@@ -85,28 +86,21 @@ public class Enemy : MonoBehaviourGameplay
 
     }
 
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+
+        if (!IsAlive())
+        {
+            Die();
+        }
+    }
+
     public void Die()
     {
         GameManager.Instance.EnemySpawner.EnemyPool.Recycle(this.gameObject);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.CompareTag("Wall") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
-        {
-            DoRotation();
-        }
-
-        else if (collision.collider.CompareTag("Breakable") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
-        {
-            DoRotation();
-        }
-
-        else if(collision.collider.CompareTag("Enemy") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
-        {
-            DoRotation();
-        }
-    }
 
     private void DoRotation()
     {
@@ -140,6 +134,23 @@ public class Enemy : MonoBehaviourGameplay
             case EnemyRayCheck.EnemyRotateDirection.Right:
                 transform.rotation = Quaternion.LookRotation(transform.right);
                 return;
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Wall") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
+        {
+            DoRotation();
+        }
+
+        else if (collision.collider.CompareTag("Breakable") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
+        {
+            DoRotation();
+        }
+
+        else if(collision.collider.CompareTag("Enemy") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
+        {
+            DoRotation();
         }
     }
 }

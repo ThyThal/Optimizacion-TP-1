@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviourGameplay
+public class Player : Character
 {
     [SerializeField] float speed;
     [SerializeField] float shootFrequency;
@@ -10,6 +10,9 @@ public class Player : MonoBehaviourGameplay
     Vector3 _dir;
     Vector3 _spawnPoint;
     Rigidbody _rb;
+
+
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -63,9 +66,22 @@ public class Player : MonoBehaviourGameplay
 
     }
 
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+
+        if (!IsAlive())
+        {
+            Respawn();
+        }
+    }
+
     public void Respawn()
     {
+        CustomLogger.Log("Respawn Player");
+
         transform.position = _spawnPoint;
+        Health.DoHeal(Health.MaxHealth);
     }
 
     private void OnCollisionEnter(Collision collision)

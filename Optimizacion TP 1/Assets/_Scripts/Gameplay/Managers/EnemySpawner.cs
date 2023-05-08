@@ -25,6 +25,14 @@ public class EnemySpawner : MonoBehaviourGameplay
         instance.GetComponent<Enemy>().PreSpawn();
     }
 
+    private void Start()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            SpawnEnemy();
+        }
+    }
+
 
     public void DisableSpawner(Spawner spawner)
     {
