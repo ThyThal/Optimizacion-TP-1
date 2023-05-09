@@ -61,6 +61,11 @@ public class Bullet : MonoBehaviourGameplay
     {
         if (_owner != _target)
         {
+            if (other.CompareTag("Wall")) 
+            {
+                gameObject.SetActive(false);
+            }
+
             if (other.CompareTag("Player") && _target == Character.CharacterType.Player)
             {
                 other?.GetComponent<Player>().TakeDamage(100);

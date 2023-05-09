@@ -33,6 +33,7 @@ public class Enemy : Character
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        Invoke("Shoot", Random.Range(1f, 3f));
     }
 
     public override void ManagedUpdate()
@@ -60,7 +61,11 @@ public class Enemy : Character
 
             _spawnTime += Time.deltaTime;
         }
+
+        
     }
+
+    
 
     public void PreSpawn()
     {
@@ -84,7 +89,8 @@ public class Enemy : Character
     
     public void Shoot()
     {
-
+        GameManager.Instance.SpawnBullet(this);
+        Invoke("Shoot", Random.Range(1f, 3f));
     }
 
     public override void TakeDamage(int damage)
