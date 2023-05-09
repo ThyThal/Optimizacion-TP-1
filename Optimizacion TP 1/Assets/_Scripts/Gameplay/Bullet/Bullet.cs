@@ -21,12 +21,12 @@ public class Bullet : MonoBehaviourGameplay
     {
         bulletBody.AddForce(transform.forward * _speed, ForceMode.Impulse);
     }
-    public void GenerateBullet(Character.CharacterType owner)
+    public void GenerateBullet(Character owner)
     {
         _type = Type.Normal;
-        _owner = owner;
+        _owner = owner.GetCharacterType;
 
-        switch (owner)
+        switch (_owner)
         {
             case Character.CharacterType.Player:
                 _target = Character.CharacterType.Enemy;
@@ -36,12 +36,18 @@ public class Bullet : MonoBehaviourGameplay
                     _type = Type.Explosive;
                 }
 
-                return;
+                break;
 
             case Character.CharacterType.Enemy:
                 _target = Character.CharacterType.Player;
-                return;
+                break;
         }
+
+        transform.position = owner.transform.position;
+        transform.rotation = owner.transform.rotation;
+
+        bulletBody.velocity = Vector3.zero;
+        bulletBody.AddForce(transform.forward * _speed, ForceMode.Impulse);
     }
 
     // Create Sphere and Damage all Enemies

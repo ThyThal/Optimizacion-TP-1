@@ -5,8 +5,8 @@ using UnityEngine;
 public class Pool : MonoBehaviour
 {
     [SerializeField] public GameObject _originalPrefab;
-    [SerializeField] private List<GameObject> _usedPool;
-    [SerializeField] private List<GameObject> _availablePool;
+    [SerializeField] private List<GameObject> _usedPool = new List<GameObject>();
+    [SerializeField] private List<GameObject> _availablePool = new List<GameObject>();
 
     public GameObject GetFromPool()
     {
@@ -26,6 +26,8 @@ public class Pool : MonoBehaviour
 
         _usedPool.Add(pooledObject);
         _availablePool.Remove(pooledObject);
+
+        pooledObject.SetActive(true);
 
         return pooledObject;
     }

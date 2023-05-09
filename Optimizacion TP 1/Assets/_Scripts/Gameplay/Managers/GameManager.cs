@@ -45,9 +45,7 @@ public class GameManager : MonoBehaviourGameplay
     public void SpawnBullet(Character owner)
     {
         var instance = bulletSpawner.GetFromPool();
-        instance.GetComponent<Bullet>().GenerateBullet(owner.GetCharacterType);
-        instance.transform.position = owner.transform.position;
-        instance.transform.rotation = owner.transform.rotation;
+        instance.GetComponent<Bullet>().GenerateBullet(owner);
     }
 
     public void FinishGame()
