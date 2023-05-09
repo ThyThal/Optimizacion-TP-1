@@ -90,6 +90,7 @@ public class Player : Character
     public void Respawn()
     {
         transform.position = _spawnPoint;
+        _rb.velocity = Vector3.zero;
         Health.DoHeal(Health.MaxHealth);
         GameManager.Instance.PlayerDeath();
     }

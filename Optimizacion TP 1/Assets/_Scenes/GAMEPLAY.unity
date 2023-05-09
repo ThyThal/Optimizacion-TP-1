@@ -2490,11 +2490,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &750712113 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7509197299162725612, guid: 47f98863d0bf9fb408a40fd047a5fb24, type: 3}
-  m_PrefabInstance: {fileID: 1294122266564862890}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &750712114 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6687106610500594577, guid: 47f98863d0bf9fb408a40fd047a5fb24, type: 3}
@@ -2505,7 +2500,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7655130571219142888, guid: 47f98863d0bf9fb408a40fd047a5fb24, type: 3}
   m_PrefabInstance: {fileID: 1294122266564862890}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 750712113}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60a01b105de5d98449c88cefc7a53917, type: 3}
@@ -5522,6 +5517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ec826cf9d472e4d938f78cd5c238ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawnAmount: 4
   _availableSpawnLocations:
   - {fileID: 4407266777309478273}
   - {fileID: 1400605188}
@@ -5695,10 +5691,22 @@ PrefabInstance:
     - target: {fileID: 60746818544449447, guid: 47f98863d0bf9fb408a40fd047a5fb24, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 750712113}
+      objectReference: {fileID: 750712115}
     - target: {fileID: 60746818544449447, guid: 47f98863d0bf9fb408a40fd047a5fb24, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 60746818544449447, guid: 47f98863d0bf9fb408a40fd047a5fb24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 60746818544449447, guid: 47f98863d0bf9fb408a40fd047a5fb24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Popup, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 60746818544449447, guid: 47f98863d0bf9fb408a40fd047a5fb24, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6687106610500594577, guid: 47f98863d0bf9fb408a40fd047a5fb24, type: 3}
       propertyPath: m_Pivot.x

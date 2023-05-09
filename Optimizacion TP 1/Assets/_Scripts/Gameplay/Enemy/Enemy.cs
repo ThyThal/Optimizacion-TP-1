@@ -33,7 +33,6 @@ public class Enemy : Character
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        Invoke("Shoot", Random.Range(1f, 3f));
     }
 
     public override void ManagedUpdate()
@@ -58,6 +57,7 @@ public class Enemy : Character
                 }
 
                 _enabled = true;
+                Invoke("Shoot", Random.Range(1f, 3f));
                 DoRotation();
             }
 
@@ -107,8 +107,9 @@ public class Enemy : Character
 
     public void Die()
     {
-        GameManager.Instance.KilledEnemy();
+        CancelInvoke();
         GameManager.Instance.EnemySpawner.EnemyPool.Recycle(this.gameObject);
+        GameManager.Instance.KilledEnemy();
     }
 
 

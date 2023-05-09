@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviourGameplay
 {
+    [SerializeField] private int _spawnAmount = 4;
     [SerializeField] private List<Spawner> _availableSpawnLocations;
     [SerializeField] private Pool _enemiesPool;
     [SerializeField] private int _maxEnemies;
@@ -35,7 +36,7 @@ public class EnemySpawner : MonoBehaviourGameplay
 
     private void Start()
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < _spawnAmount; i++)
         {
             SpawnEnemy();
         }
