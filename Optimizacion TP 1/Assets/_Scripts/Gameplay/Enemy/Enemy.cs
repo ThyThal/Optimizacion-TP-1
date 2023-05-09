@@ -38,6 +38,8 @@ public class Enemy : Character
 
     public override void ManagedUpdate()
     {
+        if (GameManager.Instance.GameFinished) return;
+
         if (_enabled)
         {
             Move();
@@ -105,6 +107,7 @@ public class Enemy : Character
 
     public void Die()
     {
+        GameManager.Instance.KilledEnemy();
         GameManager.Instance.EnemySpawner.EnemyPool.Recycle(this.gameObject);
     }
 

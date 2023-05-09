@@ -6,6 +6,11 @@ public class EnemySpawner : MonoBehaviourGameplay
 {
     [SerializeField] private List<Spawner> _availableSpawnLocations;
     [SerializeField] private Pool _enemiesPool;
+    [SerializeField] private int _maxEnemies;
+    [SerializeField] private int _spawnedEnemies;
+
+    public int MaxEnemies => _maxEnemies;
+    public int SpawnedEnemies => _spawnedEnemies;
 
     public Pool EnemyPool => _enemiesPool;
 
@@ -23,11 +28,14 @@ public class EnemySpawner : MonoBehaviourGameplay
         instance.transform.position = _availableSpawnLocations[Random.Range(0, _availableSpawnLocations.Count)].transform.position;
         instance.SetActive(true);
         instance.GetComponent<Enemy>().PreSpawn();
+
+        GameManager.Instance.CanvasLevel.SpawnedEnemy();
+        _spawnedEnemies++;
     }
 
     private void Start()
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 100; i++)
         {
             SpawnEnemy();
         }

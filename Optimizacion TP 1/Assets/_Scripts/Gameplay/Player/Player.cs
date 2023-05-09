@@ -22,6 +22,8 @@ public class Player : Character
 
     public override void ManagedUpdate()
     {
+        if (GameManager.Instance.GameFinished) return;
+
         if (Input.GetAxisRaw("Vertical") != 0)
         {
             _dir = Vector3.forward * Input.GetAxisRaw("Vertical");
@@ -46,6 +48,8 @@ public class Player : Character
 
     private void Update()
     {
+        if (GameManager.Instance.GameFinished) return;
+
         if (_cooldown <= shootFrequency)
         {
             _cooldown += Time.deltaTime;
@@ -87,6 +91,7 @@ public class Player : Character
     {
         transform.position = _spawnPoint;
         Health.DoHeal(Health.MaxHealth);
+        GameManager.Instance.PlayerDeath();
     }
 
     private void OnCollisionEnter(Collision collision)
