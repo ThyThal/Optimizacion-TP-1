@@ -5,22 +5,27 @@ using UnityEngine.UI;
 public class CanvasLevel : MonoBehaviourUI
 {
     [SerializeField] private int cantEnemies;
-    [SerializeField] private int currentTemp;
     [SerializeField] private Text textEnemy;
+    [SerializeField] private Enemy enemy;
     private string textEnemyPredet = "ENEMY: ";
     public override void Awake()
     {
         base.Awake();
-
-    }
-    private void Update()
-    {
-       
+        textEnemy.text = textEnemyPredet + cantEnemies;
     }
     public override void ManagedUpdate()
     {
         base.ManagedUpdate();
-        textEnemy.text = textEnemyPredet + cantEnemies;
+        ChangeText();
     }
 
+    private void ChangeText()
+    {
+        if (enemy.IsAlive())
+        {
+            cantEnemies--;
+            textEnemy.text = textEnemyPredet + cantEnemies;
+        }
+
+    }
 }

@@ -2303,8 +2303,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.9, y: 36.358}
-  m_SizeDelta: {x: 50, y: 27.284}
+  m_AnchoredPosition: {x: -5.6, y: 32.319}
+  m_SizeDelta: {x: 50, y: 35.361}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &746761159
 MonoBehaviour:
@@ -4717,6 +4717,7 @@ MonoBehaviour:
   cantEnemies: 100
   currentTemp: 0
   textEnemy: {fileID: 143309042}
+  enemy: {fileID: 3387411057631583317, guid: 9cdd0c45743f49240ae525c91c0f10e3, type: 3}
 --- !u!1001 &1605679047
 PrefabInstance:
   m_ObjectHideFlags: 0
