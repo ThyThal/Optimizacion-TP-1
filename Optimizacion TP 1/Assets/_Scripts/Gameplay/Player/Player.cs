@@ -47,12 +47,10 @@ public class Player : Character
         {
             _cooldown += Time.deltaTime;
         }
-        else if (Input.GetKeyDown(KeyCode.Q))
+        else if (Input.GetKey(KeyCode.Q))
         {
             Shoot();
         }
-
-        Debug.Log(_cooldown);
     }
 
     public void Move()
@@ -68,7 +66,6 @@ public class Player : Character
 
     public void Shoot()
     {
-        Debug.Log("Spawn Bullet");
         _cooldown = 0;
         GameManager.Instance.SpawnBullet(this);
     }
