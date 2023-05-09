@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Enemy : MonoBehaviourGameplay
+public class Enemy : Character
 {
     [SerializeField] float speed;
     [SerializeField] float shootFrequency;
@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviourGameplay
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        Invoke("Shoot", Random.Range(1f, 3f));
     }
 
     public override void ManagedUpdate()
@@ -55,16 +56,22 @@ public class Enemy : MonoBehaviourGameplay
                 }
 
                 _enabled = true;
+                DoRotation();
             }
 
             _spawnTime += Time.deltaTime;
         }
+
+        
     }
+
+    
 
     public void PreSpawn()
     {
         _enabled = false;
         _spawnTime = 0;
+        Health.DoHeal(Health.MaxHealth);
 
         // Create Ghost Material.
         foreach (var renderer in _renderers)
@@ -82,7 +89,18 @@ public class Enemy : MonoBehaviourGameplay
     
     public void Shoot()
     {
+        GameManager.Instance.SpawnBullet(this);
+        Invoke("Shoot", Random.Range(1f, 3f));
+    }
 
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+
+        if (!IsAlive())
+        {
+            Die();
+        }
     }
 
     public void Die()
@@ -90,23 +108,6 @@ public class Enemy : MonoBehaviourGameplay
         GameManager.Instance.EnemySpawner.EnemyPool.Recycle(this.gameObject);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.CompareTag("Wall") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
-        {
-            DoRotation();
-        }
-
-        else if (collision.collider.CompareTag("Breakable") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
-        {
-            DoRotation();
-        }
-
-        else if(collision.collider.CompareTag("Enemy") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
-        {
-            DoRotation();
-        }
-    }
 
     private void DoRotation()
     {
@@ -121,9 +122,9 @@ public class Enemy : MonoBehaviourGameplay
         }
 
         // Get Random Direction and Rotate
-        var a = _availableDirections[Random.Range(0, _availableDirections.Count)];
+        var collisionDirection = _availableDirections[Random.Range(0, _availableDirections.Count)];
 
-        switch (a.RotateDirection)
+        switch (collisionDirection.RotateDirection)
         {
             case EnemyRayCheck.EnemyRotateDirection.Forward:
                 transform.rotation = Quaternion.LookRotation(transform.forward);
@@ -140,6 +141,23 @@ public class Enemy : MonoBehaviourGameplay
             case EnemyRayCheck.EnemyRotateDirection.Right:
                 transform.rotation = Quaternion.LookRotation(transform.right);
                 return;
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Wall") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
+        {
+            DoRotation();
+        }
+
+        else if (collision.collider.CompareTag("Breakable") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
+        {
+            DoRotation();
+        }
+
+        else if(collision.collider.CompareTag("Enemy") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
+        {
+            DoRotation();
         }
     }
 }

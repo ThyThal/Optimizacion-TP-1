@@ -2,49 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviourGameplay
+public class Player : Character
 {
     [SerializeField] float speed;
     [SerializeField] float shootFrequency;
-    [SerializeField] GameObject bulletPrefab;
     Vector3 _dir;
     Vector3 _spawnPoint;
     Rigidbody _rb;
+    [SerializeField] float _cooldown;
+
+    public bool CanAttack => _cooldown >= shootFrequency;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _spawnPoint = transform.position;
+        _cooldown = 0;
     }
 
     public override void ManagedUpdate()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetAxisRaw("Vertical") != 0)
         {
-            _dir = Vector3.forward;
-            Rotate(_dir);
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            _dir = -Vector3.right;
-            Rotate(_dir);
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            _dir = -Vector3.forward;
-            Rotate(_dir);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            _dir = Vector3.right;
+            _dir = Vector3.forward * Input.GetAxisRaw("Vertical");
             Rotate(_dir);
         }
 
-        else
+        else if (Input.GetAxisRaw("Horizontal") != 0)
         {
-            _dir = Vector3.zero;
-            _rb.velocity = Vector3.zero;
+            _dir = Vector3.right * Input.GetAxisRaw("Horizontal");
+            Rotate(_dir);
         }
 
+        else 
+        {
+            if (_dir != Vector3.zero) 
+            {
+                _dir = Vector3.zero;
+                _rb.velocity = _dir;
+            }
+        }
+    }
+
+    private void Update()
+    {
+        if (_cooldown <= shootFrequency)
+        {
+            _cooldown += Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.Space) && CanAttack)
+        {
+            Shoot();
+        }
     }
 
     public void Move()
@@ -60,12 +69,24 @@ public class Player : MonoBehaviourGameplay
 
     public void Shoot()
     {
+        GameManager.Instance.SpawnBullet(this);
+        _cooldown = 0;
+    }
 
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+
+        if (!IsAlive())
+        {
+            Respawn();
+        }
     }
 
     public void Respawn()
     {
         transform.position = _spawnPoint;
+        Health.DoHeal(Health.MaxHealth);
     }
 
     private void OnCollisionEnter(Collision collision)

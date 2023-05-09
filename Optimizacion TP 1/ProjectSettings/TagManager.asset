@@ -7,6 +7,8 @@ TagManager:
   - Wall
   - Enemy
   - Breakable
+  - Bullet
+  - Sensor
   layers:
   - Default
   - TransparentFX
@@ -18,8 +20,8 @@ TagManager:
   - Enemy
   - Wall
   - Breakable
-  - 
-  - 
+  - Bullet
+  - Sensor
   - 
   - 
   - 

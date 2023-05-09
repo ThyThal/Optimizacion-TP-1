@@ -52,8 +52,9 @@ public class CustomUpdateManager : MonoBehaviour
 
             customUpdate.DoTick();
 
-            foreach (var managedObject in customUpdate.GetManagedObjects)
+            for (int i = customUpdate.GetManagedObjects.Count - 1; i >= 0; i--)
             {
+                var managedObject = customUpdate.GetManagedObjects[i];
                 if (managedObject.isActiveAndEnabled)
                 {
                     managedObject.ManagedUpdate();
