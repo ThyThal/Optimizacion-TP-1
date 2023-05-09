@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviourGameplay
     [SerializeField] private Character.CharacterType _owner;
     [SerializeField] private Character.CharacterType _target;
     [SerializeField] private Type _type;
-
+    [SerializeField] private Rigidbody bulletBody;
     public int GetDamage => _damage;
 
     public enum Type
@@ -17,7 +17,10 @@ public class Bullet : MonoBehaviourGameplay
         Normal,
         Explosive
     }
-
+    private void Start()
+    {
+        bulletBody.AddForce(transform.forward * _speed, ForceMode.Impulse);
+    }
     public void GenerateBullet(Character.CharacterType owner)
     {
         _type = Type.Normal;
