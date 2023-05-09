@@ -55,6 +55,7 @@ public class Enemy : Character
                 }
 
                 _enabled = true;
+                DoRotation();
             }
 
             _spawnTime += Time.deltaTime;
