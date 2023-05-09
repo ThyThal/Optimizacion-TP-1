@@ -51,8 +51,8 @@ MonoBehaviour:
   _health:
     _maxHealth: 100
   speed: 3
-  shootFrequency: 0
-  bulletPrefab: {fileID: 0}
+  shootFrequency: 0.05
+  _cooldown: 0
 --- !u!135 &6555419675193788009
 SphereCollider:
   m_ObjectHideFlags: 0

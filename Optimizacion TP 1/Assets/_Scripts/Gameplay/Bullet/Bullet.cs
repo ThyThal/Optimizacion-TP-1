@@ -24,15 +24,18 @@ public class Bullet : MonoBehaviourGameplay
     public void GenerateBullet(Character.CharacterType owner)
     {
         _type = Type.Normal;
+        _owner = owner;
 
         switch (owner)
         {
             case Character.CharacterType.Player:
+                _target = Character.CharacterType.Enemy;
+
                 if (Random.Range(1, 11) <= 1)
                 {
                     _type = Type.Explosive;
                 }
-                _target = Character.CharacterType.Enemy;
+
                 return;
 
             case Character.CharacterType.Enemy:
@@ -44,8 +47,6 @@ public class Bullet : MonoBehaviourGameplay
     // Create Sphere and Damage all Enemies
     private void DoExplosion()
     {
-        Debug.Log($"{_owner}, {_type}, Explode!");
-
         // List of Damagables in Area.
         List<IDamagable> damagables = new List<IDamagable>();
 
@@ -61,11 +62,6 @@ public class Bullet : MonoBehaviourGameplay
     {
         if (_owner != _target)
         {
-            if (other.CompareTag("Wall")) 
-            {
-                gameObject.SetActive(false);
-            }
-
             if (other.CompareTag("Player") && _target == Character.CharacterType.Player)
             {
                 other?.GetComponent<Player>().TakeDamage(100);
@@ -87,6 +83,11 @@ public class Bullet : MonoBehaviourGameplay
 
                 GameManager.Instance.BulletPool.Recycle(this.gameObject);
             }
+        }
+
+        if (other.CompareTag("Wall"))
+        {
+            GameManager.Instance.BulletPool.Recycle(this.gameObject);
         }
 
         if (other.CompareTag("Breakable"))

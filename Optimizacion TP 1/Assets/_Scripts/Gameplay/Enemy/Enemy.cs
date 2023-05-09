@@ -122,9 +122,9 @@ public class Enemy : Character
         }
 
         // Get Random Direction and Rotate
-        var a = _availableDirections[Random.Range(0, _availableDirections.Count)];
+        var collisionDirection = _availableDirections[Random.Range(0, _availableDirections.Count)];
 
-        switch (a.RotateDirection)
+        switch (collisionDirection.RotateDirection)
         {
             case EnemyRayCheck.EnemyRotateDirection.Forward:
                 transform.rotation = Quaternion.LookRotation(transform.forward);

@@ -6,19 +6,17 @@ public class Player : Character
 {
     [SerializeField] float speed;
     [SerializeField] float shootFrequency;
-    [SerializeField] GameObject bulletPrefab;
     Vector3 _dir;
     Vector3 _spawnPoint;
     Rigidbody _rb;
-    float _cooldown;
+    [SerializeField] float _cooldown;
 
-
+    public bool CanAttack => _cooldown >= shootFrequency;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _spawnPoint = transform.position;
-
         _cooldown = 0;
     }
 
@@ -29,11 +27,13 @@ public class Player : Character
             _dir = Vector3.forward * Input.GetAxisRaw("Vertical");
             Rotate(_dir);
         }
+
         else if (Input.GetAxisRaw("Horizontal") != 0)
         {
             _dir = Vector3.right * Input.GetAxisRaw("Horizontal");
             Rotate(_dir);
         }
+
         else 
         {
             if (_dir != Vector3.zero) 
@@ -42,12 +42,15 @@ public class Player : Character
                 _rb.velocity = _dir;
             }
         }
+    }
 
+    private void Update()
+    {
         if (_cooldown <= shootFrequency)
         {
             _cooldown += Time.deltaTime;
         }
-        else if (Input.GetKey(KeyCode.Q))
+        else if (Input.GetKey(KeyCode.Space) && CanAttack)
         {
             Shoot();
         }
@@ -66,8 +69,8 @@ public class Player : Character
 
     public void Shoot()
     {
-        _cooldown = 0;
         GameManager.Instance.SpawnBullet(this);
+        _cooldown = 0;
     }
 
     public override void TakeDamage(int damage)
@@ -82,8 +85,6 @@ public class Player : Character
 
     public void Respawn()
     {
-        CustomLogger.Log("Respawn Player");
-
         transform.position = _spawnPoint;
         Health.DoHeal(Health.MaxHealth);
     }
