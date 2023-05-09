@@ -10,6 +10,7 @@ public class Player : Character
     Vector3 _dir;
     Vector3 _spawnPoint;
     Rigidbody _rb;
+    float _cooldown;
 
 
 
@@ -17,37 +18,41 @@ public class Player : Character
     {
         _rb = GetComponent<Rigidbody>();
         _spawnPoint = transform.position;
+
+        _cooldown = 0;
     }
 
     public override void ManagedUpdate()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetAxisRaw("Vertical") != 0)
         {
-            _dir = Vector3.forward;
+            _dir = Vector3.forward * Input.GetAxisRaw("Vertical");
             Rotate(_dir);
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetAxisRaw("Horizontal") != 0)
         {
-            _dir = -Vector3.right;
+            _dir = Vector3.right * Input.GetAxisRaw("Horizontal");
             Rotate(_dir);
         }
-        else if (Input.GetKey(KeyCode.S))
+        else 
         {
-            _dir = -Vector3.forward;
-            Rotate(_dir);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            _dir = Vector3.right;
-            Rotate(_dir);
+            if (_dir != Vector3.zero) 
+            {
+                _dir = Vector3.zero;
+                _rb.velocity = _dir;
+            }
         }
 
-        else
+        if (_cooldown <= shootFrequency)
         {
-            _dir = Vector3.zero;
-            _rb.velocity = Vector3.zero;
+            _cooldown += Time.deltaTime;
+        }
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Shoot();
         }
 
+        Debug.Log(_cooldown);
     }
 
     public void Move()
@@ -63,7 +68,9 @@ public class Player : Character
 
     public void Shoot()
     {
-
+        Debug.Log("Spawn Bullet");
+        _cooldown = 0;
+        GameManager.Instance.SpawnBullet(this);
     }
 
     public override void TakeDamage(int damage)

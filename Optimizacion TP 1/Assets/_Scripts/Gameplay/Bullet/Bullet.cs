@@ -32,10 +32,11 @@ public class Bullet : MonoBehaviourGameplay
                 {
                     _type = Type.Explosive;
                 }
+                _target = Character.CharacterType.Enemy;
                 return;
 
             case Character.CharacterType.Enemy:
-
+                _target = Character.CharacterType.Player;
                 return;
         }
     }
