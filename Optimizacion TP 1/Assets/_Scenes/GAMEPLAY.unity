@@ -5518,6 +5518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnAmount: 4
+  _spawnFrequency: 1
   _availableSpawnLocations:
   - {fileID: 4407266777309478273}
   - {fileID: 1400605188}
@@ -5525,6 +5526,7 @@ MonoBehaviour:
   - {fileID: 453189715}
   _enemiesPool: {fileID: 2064363435}
   _maxEnemies: 100
+  _maxAliveEnemies: 6
   _spawnedEnemies: 0
 --- !u!114 &2064363435
 MonoBehaviour:

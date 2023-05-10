@@ -7,6 +7,7 @@ public class EnemySpawner : MonoBehaviourGameplay
     [SerializeField] private int _spawnAmount = 4;
     [SerializeField] private float _spawnFrequency = 2;
     [SerializeField] private List<Spawner> _availableSpawnLocations;
+
     [SerializeField] private Pool _enemiesPool;
     [SerializeField] private int _maxEnemies;
     [SerializeField] private int _maxAliveEnemies = 6;
