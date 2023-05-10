@@ -20,91 +20,14 @@ public class GameManager : MonoBehaviourGameplay
         }
     }
 
-    [SerializeField] private EnemySpawner enemySpawner;
-    [SerializeField] private Pool bulletSpawner;
-    [SerializeField] private CanvasLevel _canvasLevel;
-    [SerializeField] 
+    [SerializeField] private LevelManager _levelManager;
 
-    private int _playerDeaths = 0;
-    private int _killedEnemies = 0;
-    private int _aliveEnemies = 0;
-    private bool _finished = false;
-    private float gameTime = 0f;
+    public LevelManager LevelManager => _levelManager;
 
-    public EnemySpawner EnemySpawner => enemySpawner;
-    public Pool BulletPool => bulletSpawner;
-    public CanvasLevel CanvasLevel => _canvasLevel;
-    public int PlayerDeaths => _playerDeaths;
-    public int AliveEnemies => _aliveEnemies;
+    public bool GameFinished => LevelManager.GameFinished;
 
-    public bool GameFinished => _finished;
-
-    private void Update()
+    public void SetLevelManager(LevelManager levelManager)
     {
-        if (GameFinished) return;
-        gameTime += Time.deltaTime;
-    }
-
-    public void SpawnBullet(Character owner)
-    {
-        var instance = bulletSpawner.GetFromPool();
-        instance.SetActive(true);
-        instance.GetComponent<Bullet>().GenerateBullet(owner);
-    }
-
-    public void StartGame()
-    {
-        _finished = false;
-    }
-
-    public void FinishGame()
-    {
-        CanvasLevel.Popup.ShowPopup();
-    }
-
-    /// <summary>
-    /// Keeps Track of Killed Enemies and Other Stats.
-    /// </summary>
-    public void KilledEnemy()
-    {
-        _killedEnemies++;
-        _aliveEnemies--;
-        _canvasLevel.UpdateKilled(_killedEnemies);
-
-        if (_killedEnemies >= EnemySpawner.MaxEnemies)
-        {
-            _finished = true;
-            FinishGame();
-        }
-    }
-
-    public void SpawnedEnemy()
-    {
-        _canvasLevel.SpawnedEnemy();
-        _aliveEnemies++;
-    }
-
-    public void PlayerDeath()
-    {
-        _playerDeaths++;
-    }
-
-    public void Cheat()
-    {
-        Enemy[] enemies = FindObjectsOfType<Enemy>();
-        foreach (var item in enemies)
-        {
-            item.OnDie();
-        }
-    }
-
-    public string GetFormattedTime()
-    {
-        int hours = Mathf.FloorToInt(gameTime / 3600);
-        int minutes = Mathf.FloorToInt((gameTime % 3600) / 60);
-        int seconds = Mathf.FloorToInt(gameTime % 60);
-
-        string formattedTime = $"{hours}h {minutes}m {seconds}s";
-        return formattedTime;
+        _levelManager = levelManager;
     }
 }

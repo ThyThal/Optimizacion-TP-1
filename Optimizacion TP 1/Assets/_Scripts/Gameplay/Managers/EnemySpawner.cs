@@ -34,7 +34,7 @@ public class EnemySpawner : MonoBehaviourGameplay
         {
             _timer += Time.deltaTime;
         }
-        else if(GameManager.Instance.AliveEnemies < _maxAliveEnemies) 
+        else if(GameManager.Instance.LevelManager.AliveEnemies < _maxAliveEnemies) 
         {
             _timer = 0;
             SpawnEnemy();
@@ -53,7 +53,7 @@ public class EnemySpawner : MonoBehaviourGameplay
         instance.SetActive(true);
         instance.GetComponent<Enemy>().OnPreSpawn();
 
-        GameManager.Instance.SpawnedEnemy();
+        GameManager.Instance.LevelManager.OnSpawnedEnemy();
         _spawnedEnemies++;
     }
 

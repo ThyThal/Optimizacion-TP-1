@@ -12,8 +12,8 @@ public class Popup : MonoBehaviourUI
     public void ShowPopup()
     {
         this.gameObject.SetActive(true);
-        _deaths.text = $"Amount of Deaths: {GameManager.Instance.PlayerDeaths}";
-        _time.text = $"Time: {GameManager.Instance.GetFormattedTime()}";
+        _deaths.text = $"Amount of Deaths: {GameManager.Instance.LevelManager.PlayerDeaths}";
+        _time.text = $"Time: {GameManager.Instance.LevelManager.GetFormattedTime()}";
     }
 
     public void HidePopup()

@@ -19,7 +19,7 @@ public class CanvasLevel : MonoBehaviourUI
 
     private void Start()
     {
-        _remainingEnemies = GameManager.Instance.EnemySpawner.MaxEnemies;
+        _remainingEnemies = GameManager.Instance.LevelManager.EnemySpawner.MaxEnemies;
     }
 
 
@@ -28,7 +28,7 @@ public class CanvasLevel : MonoBehaviourUI
         _textKilled.text = $"Killed: {_killedEnemies}";
         _textAlive.text = $"Alive: {_aliveEnemies}";
         _textRemaining.text = $"Remaining: {_remainingEnemies}";
-        _textTimer.text = $"Time: {GameManager.Instance.GetFormattedTime()}";
+        _textTimer.text = $"Time: {GameManager.Instance.LevelManager.GetFormattedTime()}";
     }
 
     public void UpdateKilled(int killed)

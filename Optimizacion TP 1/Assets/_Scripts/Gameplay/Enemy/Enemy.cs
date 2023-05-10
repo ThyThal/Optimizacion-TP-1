@@ -52,7 +52,7 @@ public class Enemy : Character
 
     public override void ManagedUpdate()
     {
-        if (GameManager.Instance.GameFinished) return;
+        if (GameManager.Instance.LevelManager.GameFinished) return;
 
         // Enemy Spawning.
         if (_preSpawning)
@@ -199,9 +199,9 @@ public class Enemy : Character
         _rb.velocity = Vector3.zero;
 
         // Manager Calls.
-        GameManager.Instance.EnemySpawner.EnemyPool.Recycle(this.gameObject);
-        GameManager.Instance.KilledEnemy();
-        GameManager.Instance.EnemySpawner.SpawnEnemy();
+        GameManager.Instance.LevelManager.EnemySpawner.EnemyPool.Recycle(this.gameObject);
+        GameManager.Instance.LevelManager.KilledEnemy();
+        GameManager.Instance.LevelManager.EnemySpawner.SpawnEnemy();
     }
 
     /// <summary>
@@ -217,7 +217,7 @@ public class Enemy : Character
         else
         {
             _shootTimer = _originalShootTime;
-            GameManager.Instance.SpawnBullet(this);
+            GameManager.Instance.LevelManager.SpawnBullet(this);
         }
     }
 

@@ -77,7 +77,7 @@ public class Bullet : MonoBehaviourGameplay
             if (other.CompareTag("Player") && _target == Character.CharacterType.Player)
             {
                 other?.GetComponent<Player>().TakeDamage(100);
-                GameManager.Instance.BulletPool.Recycle(this.gameObject);
+                GameManager.Instance.LevelManager.BulletPool.Recycle(this.gameObject);
                 bulletBody.velocity = Vector3.zero;
             }
 
@@ -94,21 +94,21 @@ public class Bullet : MonoBehaviourGameplay
                         break;
                 }
 
-                GameManager.Instance.BulletPool.Recycle(this.gameObject);
+                GameManager.Instance.LevelManager.BulletPool.Recycle(this.gameObject);
                 bulletBody.velocity = Vector3.zero;
             }
         }
 
         if (other.CompareTag("Wall"))
         {
-            GameManager.Instance.BulletPool.Recycle(this.gameObject);
+            GameManager.Instance.LevelManager.BulletPool.Recycle(this.gameObject);
             bulletBody.velocity = Vector3.zero;
         }
 
         if (other.CompareTag("Breakable"))
         {
             other.GetComponent<Breakable>().TakeDamage(100);
-            GameManager.Instance.BulletPool.Recycle(this.gameObject);
+            GameManager.Instance.LevelManager.BulletPool.Recycle(this.gameObject);
             bulletBody.velocity = Vector3.zero;
         }
 

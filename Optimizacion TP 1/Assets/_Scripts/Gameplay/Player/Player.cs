@@ -68,7 +68,7 @@ public class Player : Character
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            GameManager.Instance.Cheat();
+            GameManager.Instance.LevelManager.CheatKill();
         }
     }
 
@@ -85,7 +85,7 @@ public class Player : Character
 
     public void Shoot()
     {
-        GameManager.Instance.SpawnBullet(this);
+        GameManager.Instance.LevelManager.SpawnBullet(this);
         _cooldown = 0;
     }
 
@@ -104,7 +104,7 @@ public class Player : Character
         transform.position = _spawnPoint;
         _rb.velocity = Vector3.zero;
         Health.DoHeal(Health.MaxHealth);
-        GameManager.Instance.PlayerDeath();
+        GameManager.Instance.LevelManager.PlayerDeath();
     }
 
     private void OnCollisionEnter(Collision collision)
