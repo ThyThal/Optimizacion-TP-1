@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviourGameplay
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private Pool bulletSpawner;
     [SerializeField] private CanvasLevel _canvasLevel;
+    [SerializeField] 
 
     private int _playerDeaths = 0;
     private int _killedEnemies = 0;
@@ -49,6 +50,11 @@ public class GameManager : MonoBehaviourGameplay
         var instance = bulletSpawner.GetFromPool();
         instance.SetActive(true);
         instance.GetComponent<Bullet>().GenerateBullet(owner);
+    }
+
+    public void StartGame()
+    {
+        _finished = false;
     }
 
     public void FinishGame()
@@ -83,7 +89,14 @@ public class GameManager : MonoBehaviourGameplay
         _playerDeaths++;
     }
 
-    
+    public void Cheat()
+    {
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        foreach (var item in enemies)
+        {
+            item.OnDie();
+        }
+    }
 
     public string GetFormattedTime()
     {

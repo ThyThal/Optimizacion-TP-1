@@ -12,6 +12,7 @@ public class Player : Character
     [SerializeField] float _cooldown;
 
     public bool CanAttack => _cooldown >= shootFrequency;
+    private bool _gameFinished = false;
 
     void Start()
     {
@@ -22,7 +23,13 @@ public class Player : Character
 
     public override void ManagedUpdate()
     {
-        if (GameManager.Instance.GameFinished) return;
+        if (GameManager.Instance.GameFinished && _gameFinished) return;
+        if (GameManager.Instance.GameFinished && !_gameFinished)
+        {
+            _gameFinished = true;
+            _rb.velocity = Vector3.zero;
+            return;
+        }
 
         if (Input.GetAxisRaw("Vertical") != 0)
         {
@@ -57,6 +64,11 @@ public class Player : Character
         else if (Input.GetKey(KeyCode.Space) && CanAttack)
         {
             Shoot();
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            GameManager.Instance.Cheat();
         }
     }
 
