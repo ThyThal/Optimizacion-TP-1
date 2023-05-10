@@ -118,7 +118,6 @@ MonoBehaviour:
     _maxHealth: 100
   speed: 3
   shootFrequency: 0
-  bulletPrefab: {fileID: 0}
   _renderers:
   - {fileID: 8132996358839798564}
   - {fileID: 7867594244991884333}
@@ -129,6 +128,12 @@ MonoBehaviour:
   _spawnTime: 0
   _enabled: 0
   _availableDirections: []
+  _availableDirectionsOld: []
+  _availableDirectionsNew: []
+  frontCheck: {fileID: 5293817478211378081}
+  obstaclesMask:
+    serializedVersion: 2
+    m_Bits: 768
 --- !u!54 &3061358143102472423
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -202,7 +207,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.25
+  m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3061358142412004133
 MonoBehaviour:

@@ -7,14 +7,16 @@ public class Enemy : Character
 {
     [SerializeField] float speed;
     [SerializeField] float shootFrequency;
-    [SerializeField] GameObject bulletPrefab;
     private Rigidbody _rb;
 
     [SerializeField] private List<Renderer> _renderers;
     [SerializeField] private float _spawnTime = 0f;
     [SerializeField] private bool _enabled = false;
 
-    [SerializeField] private List<EnemyRayCheck> _availableDirections;
+    [SerializeField] private List<EnemyRayCheck> _availableDirections = new List<EnemyRayCheck>();
+    [SerializeField] Transform frontCheck;
+    [SerializeField] LayerMask obstaclesMask;
+    [SerializeField] RaycastHit[] obstacles = new RaycastHit[3];
 
     private Dictionary<EnemyRayCheck.EnemyRotateDirection, EnemyRayCheck> _directionDic = new Dictionary<EnemyRayCheck.EnemyRotateDirection, EnemyRayCheck>();
 
@@ -42,6 +44,12 @@ public class Enemy : Character
         if (_enabled)
         {
             Move();
+
+            int currentObstacles = Physics.RaycastNonAlloc(transform.position, transform.forward, obstacles, 0.5f, obstaclesMask);
+            if (currentObstacles > 0)
+            {
+                DoRotation();
+            }
         }
 
         else
@@ -63,14 +71,12 @@ public class Enemy : Character
 
             _spawnTime += Time.deltaTime;
         }
-
-        
     }
-
     
 
     public void PreSpawn()
     {
+        //_rb.velocity = Vector3.zero;
         _enabled = false;
         _spawnTime = 0;
         Health.DoHeal(Health.MaxHealth);
@@ -97,6 +103,7 @@ public class Enemy : Character
 
     public override void TakeDamage(int damage)
     {
+        if (!_enabled) return;
         base.TakeDamage(damage);
 
         if (!IsAlive())
@@ -111,16 +118,15 @@ public class Enemy : Character
         GameManager.Instance.EnemySpawner.EnemyPool.Recycle(this.gameObject);
         GameManager.Instance.KilledEnemy();
         GameManager.Instance.EnemySpawner.SpawnEnemy();
+        _rb.velocity = Vector3.zero;
     }
 
 
     private void DoRotation()
     {
-        _availableDirections = new List<EnemyRayCheck>();
-
         foreach (var enemyRay in _directionDic.Values)
         {
-            if (!enemyRay.IsObstructed())
+            if (!enemyRay.IsObstructed() && enemyRay.RotateDirection != EnemyRayCheck.EnemyRotateDirection.Forward)
             {
                 _availableDirections.Add(enemyRay);
             }
@@ -133,22 +139,25 @@ public class Enemy : Character
         {
             case EnemyRayCheck.EnemyRotateDirection.Forward:
                 transform.rotation = Quaternion.LookRotation(transform.forward);
-                return;
+                Debug.Log("frente");
+                break;
 
             case EnemyRayCheck.EnemyRotateDirection.Back:
                 transform.rotation = Quaternion.LookRotation(-transform.forward);
-                return;
+                break;
 
             case EnemyRayCheck.EnemyRotateDirection.Left:
                 transform.rotation = Quaternion.LookRotation(-transform.right);
-                return;
+                break;
 
             case EnemyRayCheck.EnemyRotateDirection.Right:
                 transform.rotation = Quaternion.LookRotation(transform.right);
-                return;
+                break;
         }
+
+        _availableDirections.Clear();
     }
-    private void OnCollisionEnter(Collision collision)
+    /*private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Wall") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
         {
@@ -164,5 +173,5 @@ public class Enemy : Character
         {
             DoRotation();
         }
-    }
+    }*/
 }

@@ -28,6 +28,8 @@ public class EnemySpawner : MonoBehaviourGameplay
 
     public override void ManagedUpdate()
     {
+        if (_spawnedEnemies >= MaxEnemies) return;
+
         if (_timer < _spawnFrequency)
         {
             _timer += Time.deltaTime;
@@ -43,6 +45,8 @@ public class EnemySpawner : MonoBehaviourGameplay
     [ContextMenu("Spawn Enemy from Pool")]
     public void SpawnEnemy()
     {
+        if (_spawnedEnemies >= MaxEnemies) return;
+
         var instance = _enemiesPool.GetFromPool();
 
         instance.transform.position = _availableSpawnLocations[Random.Range(0, _availableSpawnLocations.Count)].transform.position;
