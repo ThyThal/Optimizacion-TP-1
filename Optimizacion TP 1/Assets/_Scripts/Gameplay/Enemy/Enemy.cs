@@ -101,9 +101,7 @@ public class Enemy : Character
         if (_availableDirections.Count > 0)
         {
             // Get Random Direction and Rotate
-            var a = Random.Range(0, _availableDirections.Count);
-            var b = _availableDirections[a];
-            var collisionDirection = b;
+            var collisionDirection = _availableDirections[Random.Range(0, _availableDirections.Count)];
 
             switch (collisionDirection.RotateDirection)
             {
@@ -247,11 +245,11 @@ public class Enemy : Character
     /// <param name="alpha">Alpha Value for Materials</param>
     private void SetMaterialsAlpha(float alpha)
     {
-        foreach (var renderer in _renderers)
+        for (int i = 0; i < _renderers.Count; i++)
         {
-            Color currentColor = renderer.material.color;
+            Color currentColor = _renderers[i].material.color;
             currentColor.a = alpha;
-            renderer.material.color = currentColor;
+            _renderers[i].material.color = currentColor;
         }
     }
 }
