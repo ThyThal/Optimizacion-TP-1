@@ -133,3 +133,7 @@ MonoBehaviour:
   _target: 0
   _type: 0
   bulletBody: {fileID: -6998870067697899539}
+  _enemyMaterial: {fileID: 2100000, guid: 0b0cafbeee6425a4a97acd5e637039dd, type: 2}
+  _playerMaterial: {fileID: 2100000, guid: f85d2c0cc1b11434a93075b6a5db7c55, type: 2}
+  _explosiveMaterial: {fileID: 2100000, guid: 9354796b249bbb5468a4b71a6230a5f6, type: 2}
+  _renderer: {fileID: 2437192370999190932}

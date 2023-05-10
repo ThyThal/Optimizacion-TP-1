@@ -10,6 +10,13 @@ public class Bullet : MonoBehaviourGameplay
     [SerializeField] private Character.CharacterType _target;
     [SerializeField] private Type _type;
     [SerializeField] private Rigidbody bulletBody;
+
+    [SerializeField] private Material _enemyMaterial;
+    [SerializeField] private Material _playerMaterial;
+    [SerializeField] private Material _explosiveMaterial;
+
+    [SerializeField] private Renderer _renderer;
+
     public int GetDamage => _damage;
 
     public enum Type
@@ -17,7 +24,7 @@ public class Bullet : MonoBehaviourGameplay
         Normal,
         Explosive
     }
- 
+
     public void GenerateBullet(Character owner)
     {
         _type = Type.Normal;
@@ -27,16 +34,19 @@ public class Bullet : MonoBehaviourGameplay
         {
             case Character.CharacterType.Player:
                 _target = Character.CharacterType.Enemy;
+                _renderer.material = _playerMaterial;
 
                 if (Random.Range(1, 11) <= 1)
                 {
                     _type = Type.Explosive;
+                    _renderer.material = _explosiveMaterial;
                 }
 
                 break;
 
             case Character.CharacterType.Enemy:
                 _target = Character.CharacterType.Player;
+                _renderer.material = _enemyMaterial;
                 break;
         }
 
