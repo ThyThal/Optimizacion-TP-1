@@ -17,10 +17,7 @@ public class Bullet : MonoBehaviourGameplay
         Normal,
         Explosive
     }
-    private void Start()
-    {
-        bulletBody.AddForce(transform.forward * _speed, ForceMode.Impulse);
-    }
+ 
     public void GenerateBullet(Character owner)
     {
         _type = Type.Normal;
@@ -46,7 +43,6 @@ public class Bullet : MonoBehaviourGameplay
         transform.position = owner.transform.position;
         transform.rotation = owner.transform.rotation;
 
-        bulletBody.velocity = Vector3.zero;
         bulletBody.AddForce(transform.forward * _speed, ForceMode.Impulse);
     }
 
@@ -72,6 +68,7 @@ public class Bullet : MonoBehaviourGameplay
             {
                 other?.GetComponent<Player>().TakeDamage(100);
                 GameManager.Instance.BulletPool.Recycle(this.gameObject);
+                bulletBody.velocity = Vector3.zero;
             }
 
             else if (other.CompareTag("Enemy") && _target == Character.CharacterType.Enemy)
@@ -88,18 +85,22 @@ public class Bullet : MonoBehaviourGameplay
                 }
 
                 GameManager.Instance.BulletPool.Recycle(this.gameObject);
+                bulletBody.velocity = Vector3.zero;
             }
         }
 
         if (other.CompareTag("Wall"))
         {
             GameManager.Instance.BulletPool.Recycle(this.gameObject);
+            bulletBody.velocity = Vector3.zero;
         }
 
         if (other.CompareTag("Breakable"))
         {
             other.GetComponent<Breakable>().TakeDamage(100);
             GameManager.Instance.BulletPool.Recycle(this.gameObject);
+            bulletBody.velocity = Vector3.zero;
         }
+
     }
 }

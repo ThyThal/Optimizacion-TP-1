@@ -5,10 +5,14 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviourGameplay
 {
     [SerializeField] private int _spawnAmount = 4;
+    [SerializeField] private float _spawnFrequency = 2;
     [SerializeField] private List<Spawner> _availableSpawnLocations;
     [SerializeField] private Pool _enemiesPool;
     [SerializeField] private int _maxEnemies;
+    [SerializeField] private int _maxAliveEnemies = 6;
     [SerializeField] private int _spawnedEnemies;
+
+    float _timer = 0f; 
 
     public int MaxEnemies => _maxEnemies;
     public int SpawnedEnemies => _spawnedEnemies;
@@ -17,7 +21,21 @@ public class EnemySpawner : MonoBehaviourGameplay
 
     public override void Awake()
     {
+        base.Awake();
         _enemiesPool.InitializePool(10);
+    }
+
+    public override void ManagedUpdate()
+    {
+        if (_timer < _spawnFrequency)
+        {
+            _timer += Time.deltaTime;
+        }
+        else if(GameManager.Instance.AliveEnemies < _maxAliveEnemies) 
+        {
+            _timer = 0;
+            SpawnEnemy();
+        }
     }
 
     // Logic for Spawning and Enabling Enemy.
@@ -30,7 +48,7 @@ public class EnemySpawner : MonoBehaviourGameplay
         instance.SetActive(true);
         instance.GetComponent<Enemy>().PreSpawn();
 
-        GameManager.Instance.CanvasLevel.SpawnedEnemy();
+        GameManager.Instance.SpawnedEnemy();
         _spawnedEnemies++;
     }
 

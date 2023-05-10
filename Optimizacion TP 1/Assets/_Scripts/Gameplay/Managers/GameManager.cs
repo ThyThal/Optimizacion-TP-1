@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviourGameplay
 
     private int _playerDeaths = 0;
     private int _killedEnemies = 0;
+    private int _aliveEnemies = 0;
     private bool _finished = false;
     private float gameTime = 0f;
 
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviourGameplay
     public Pool BulletPool => bulletSpawner;
     public CanvasLevel CanvasLevel => _canvasLevel;
     public int PlayerDeaths => _playerDeaths;
+    public int AliveEnemies => _aliveEnemies;
 
     public bool GameFinished => _finished;
 
@@ -45,6 +47,7 @@ public class GameManager : MonoBehaviourGameplay
     public void SpawnBullet(Character owner)
     {
         var instance = bulletSpawner.GetFromPool();
+        instance.SetActive(true);
         instance.GetComponent<Bullet>().GenerateBullet(owner);
     }
 
@@ -56,6 +59,7 @@ public class GameManager : MonoBehaviourGameplay
     public void KilledEnemy()
     {
         _killedEnemies++;
+        _aliveEnemies--;
         _canvasLevel.UpdateKilled(_killedEnemies);
 
         if (_killedEnemies >= EnemySpawner.MaxEnemies)
@@ -67,7 +71,8 @@ public class GameManager : MonoBehaviourGameplay
 
     public void SpawnedEnemy()
     {
-
+        _canvasLevel.SpawnedEnemy();
+        _aliveEnemies++;
     }
 
     public void PlayerDeath()

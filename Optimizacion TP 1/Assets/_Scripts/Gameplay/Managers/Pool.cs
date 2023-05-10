@@ -27,8 +27,6 @@ public class Pool : MonoBehaviour
         _usedPool.Add(pooledObject);
         _availablePool.Remove(pooledObject);
 
-        pooledObject.SetActive(true);
-
         return pooledObject;
     }
 
