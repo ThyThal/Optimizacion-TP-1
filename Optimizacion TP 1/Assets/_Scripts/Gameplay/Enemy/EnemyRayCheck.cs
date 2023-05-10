@@ -41,6 +41,10 @@ public class EnemyRayCheck : MonoBehaviourGameplay
         }
     }
 
+    /// <summary>
+    /// TO-DO: This Must be Improved, not the Most Optimal Solution.
+    /// *the first frame the sensors wont detect being inside of a wall*
+    /// </summary>
     public void CheckStartCollisions()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, 0.25f, _layerMask);
