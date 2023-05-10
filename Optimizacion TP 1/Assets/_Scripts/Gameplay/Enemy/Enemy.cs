@@ -110,6 +110,7 @@ public class Enemy : Character
         CancelInvoke();
         GameManager.Instance.EnemySpawner.EnemyPool.Recycle(this.gameObject);
         GameManager.Instance.KilledEnemy();
+        GameManager.Instance.EnemySpawner.SpawnEnemy();
     }
 
 

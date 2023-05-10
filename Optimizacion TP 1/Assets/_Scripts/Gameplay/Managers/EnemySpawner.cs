@@ -10,10 +10,10 @@ public class EnemySpawner : MonoBehaviourGameplay
 
     [SerializeField] private Pool _enemiesPool;
     [SerializeField] private int _maxEnemies;
-    [SerializeField] private int _maxAliveEnemies = 6;
+    [SerializeField] private int _maxAliveEnemies = 25;
     [SerializeField] private int _spawnedEnemies;
 
-    float _timer = 0f; 
+    [SerializeField] float _timer = 0f; 
 
     public int MaxEnemies => _maxEnemies;
     public int SpawnedEnemies => _spawnedEnemies;
@@ -41,7 +41,7 @@ public class EnemySpawner : MonoBehaviourGameplay
 
     // Logic for Spawning and Enabling Enemy.
     [ContextMenu("Spawn Enemy from Pool")]
-    private void SpawnEnemy()
+    public void SpawnEnemy()
     {
         var instance = _enemiesPool.GetFromPool();
 
