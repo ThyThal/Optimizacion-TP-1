@@ -224,7 +224,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 24.999939, y: -25}
+  m_AnchoredPosition: {x: 25, y: -25}
   m_SizeDelta: {x: 350, y: 50}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &15099665
@@ -1376,7 +1376,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 350, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!1001 &363686912
@@ -1709,7 +1709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 24.999939, y: -100}
+  m_AnchoredPosition: {x: 25, y: -100}
   m_SizeDelta: {x: 350, y: 50}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &452968343
@@ -3591,6 +3591,7 @@ MonoBehaviour:
   enemySpawner: {fileID: 2064363434}
   bulletSpawner: {fileID: 1246934370}
   _canvasLevel: {fileID: 1587854407}
+  _playerDeaths: 0
 --- !u!4 &1246934369
 Transform:
   m_ObjectHideFlags: 0
@@ -5702,8 +5703,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ec826cf9d472e4d938f78cd5c238ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnAmount: 1
-  _spawnFrequency: 1
+  _spawnAmount: 4
+  _spawnFrequency: 2.5
   _availableSpawnLocations:
   - {fileID: 4407266777309478273}
   - {fileID: 1400605188}
