@@ -51,7 +51,7 @@ public class EnemySpawner : MonoBehaviourGameplay
 
         instance.transform.position = _availableSpawnLocations[Random.Range(0, _availableSpawnLocations.Count)].transform.position;
         instance.SetActive(true);
-        instance.GetComponent<Enemy>().PreSpawn();
+        instance.GetComponent<Enemy>().OnPreSpawn();
 
         GameManager.Instance.SpawnedEnemy();
         _spawnedEnemies++;

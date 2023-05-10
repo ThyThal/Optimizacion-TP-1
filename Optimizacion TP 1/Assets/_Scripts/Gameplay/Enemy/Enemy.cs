@@ -5,28 +5,34 @@ using System.Linq;
 
 public class Enemy : Character
 {
-    [SerializeField] float speed;
-    [SerializeField] float shootFrequency;
-    private Rigidbody _rb;
-
     [SerializeField] private List<Renderer> _renderers;
-    [SerializeField] private float _spawnTime = 0f;
-    [SerializeField] private bool _enabled = false;
-
-    [SerializeField] private List<EnemyRayCheck> _availableDirections = new List<EnemyRayCheck>();
     [SerializeField] Transform frontCheck;
     [SerializeField] LayerMask obstaclesMask;
     [SerializeField] RaycastHit[] obstacles = new RaycastHit[3];
+    [SerializeField] private EnemyRayCheck[] _enemyRays;
 
+    [Header("Cooldowns, Timers and Stats")]
+    [SerializeField] private float _speed = 3;
+    [SerializeField] private bool _preSpawning = true;
+    [SerializeField] private float _spawnTimer = 0.5f;
+    [SerializeField] private float _originalSpawnTime = 0.5f;
+    [SerializeField] private float _shootTimer = 1f;
+    [SerializeField] private float _originalShootTime = 1f;
+
+    private Rigidbody _rb;
+    private List<EnemyRayCheck> _availableDirections = new List<EnemyRayCheck>();
     private Dictionary<EnemyRayCheck.EnemyRotateDirection, EnemyRayCheck> _directionDic = new Dictionary<EnemyRayCheck.EnemyRotateDirection, EnemyRayCheck>();
 
     public override void Awake()
     {
         base.Awake();
 
-        var a = GetComponentsInChildren<EnemyRayCheck>();
+        if (_enemyRays == null)
+        {
+            _enemyRays = GetComponentsInChildren<EnemyRayCheck>();
+        }
 
-        foreach (var item in a)
+        foreach (var item in _enemyRays)
         {
             _directionDic.Add(item.RotateDirection, item);
         }
@@ -35,95 +41,55 @@ public class Enemy : Character
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _spawnTimer = _originalSpawnTime;
+        _shootTimer = _originalShootTime;
+
+        OnPreSpawn();
     }
+
+
+
 
     public override void ManagedUpdate()
     {
         if (GameManager.Instance.GameFinished) return;
 
-        if (_enabled)
+        // Enemy Spawning.
+        if (_preSpawning)
         {
-            Move();
-
-            int currentObstacles = Physics.RaycastNonAlloc(transform.position, transform.forward, obstacles, 0.5f, obstaclesMask);
-            if (currentObstacles > 0)
+            if (_spawnTimer > 0)
             {
-                DoRotation();
+                _spawnTimer -= Time.deltaTime;
+            }
+
+            else
+            {
+                // Do Final Spawn.
+                OnSpawn();
             }
         }
 
+        // Enemy Spawned.
         else
         {
-            if (_spawnTime >= 1)
-            {
-                // Create Normal Material.
-                foreach (var renderer in _renderers)
-                {
-                    Color currentColor = renderer.material.color;
-                    currentColor.a = 1f;
-                    renderer.material.color = currentColor;
-                }
+            // Checks for Obstacles in Front.
+            CheckForObstacles();
 
-                _enabled = true;
-                Invoke("Shoot", Random.Range(1f, 3f));
-                DoRotation();
-            }
+            // Moves with Velocity.
+            OnMove();
 
-            _spawnTime += Time.deltaTime;
+            // Handles Shooting.
+            HandleShoot();
         }
+
+
     }
-    
-
-    public void PreSpawn()
-    {
-        //_rb.velocity = Vector3.zero;
-        _enabled = false;
-        _spawnTime = 0;
-        Health.DoHeal(Health.MaxHealth);
-
-        // Create Ghost Material.
-        foreach (var renderer in _renderers)
-        {
-            Color currentColor = renderer.material.color;
-            currentColor.a = 0.25f;
-            renderer.material.color = currentColor;
-        }
-    }
-
-    public void Move()
-    {
-        _rb.velocity = transform.forward * speed;
-    }
-    
-    public void Shoot()
-    {
-        GameManager.Instance.SpawnBullet(this);
-        Invoke("Shoot", Random.Range(1f, 3f));
-    }
-
-    public override void TakeDamage(int damage)
-    {
-        if (!_enabled) return;
-        base.TakeDamage(damage);
-
-        if (!IsAlive())
-        {
-            Die();
-        }
-    }
-
-    public void Die()
-    {
-        CancelInvoke();
-        GameManager.Instance.EnemySpawner.EnemyPool.Recycle(this.gameObject);
-        GameManager.Instance.KilledEnemy();
-        GameManager.Instance.EnemySpawner.SpawnEnemy();
-        _rb.velocity = Vector3.zero;
-    }
-
 
     private void DoRotation()
     {
+        if (!IsAlive()) return;
+
+        // Find Available Rotations.
         foreach (var enemyRay in _directionDic.Values)
         {
             if (!enemyRay.IsObstructed() && enemyRay.RotateDirection != EnemyRayCheck.EnemyRotateDirection.Forward)
@@ -155,23 +121,118 @@ public class Enemy : Character
                 break;
         }
 
+        // Clear List.
         _availableDirections.Clear();
     }
-    /*private void OnCollisionEnter(Collision collision)
+
+    /// <summary>
+    /// Before Spawning Logic
+    /// </summary>
+    public void OnPreSpawn()
     {
-        if (collision.collider.CompareTag("Wall") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
+        // Sets Enemy State.
+        _preSpawning = true;
+        _spawnTimer = _originalSpawnTime;
+
+        // Creates Ghost Material
+        SetMaterialsAlpha(0.25f);
+
+        // Initializes Health.
+        Health.DoHeal(Health.MaxHealth);
+
+        DoRotation();
+    }
+
+    /// <summary>
+    /// Spawn Logic.
+    /// </summary>
+    private void OnSpawn()
+    {
+        // Sets Enemy State.
+        _preSpawning = false;
+
+        // Creates Ghost Material
+        SetMaterialsAlpha(1f);
+    }
+
+    /// <summary>
+    /// Handle Physics Movement.
+    /// </summary>
+    public void OnMove()
+    {
+        _rb.velocity = transform.forward * _speed;
+    }
+
+    /// <summary>
+    /// Make the Enemy Take Damage.
+    /// </summary>
+    /// <param name="damage">Damage Amount.</param>
+    public override void TakeDamage(int damage)
+    {
+        if (_preSpawning) return;
+
+        base.TakeDamage(damage);
+
+        if (!IsAlive())
         {
-            DoRotation();
+            OnDie();
+        }
+    }
+
+    /// <summary>
+    /// Enemy Death.
+    /// </summary>
+    public void OnDie()
+    {
+        // Freezes Velocity.
+        _rb.velocity = Vector3.zero;
+
+        // Manager Calls.
+        GameManager.Instance.EnemySpawner.EnemyPool.Recycle(this.gameObject);
+        GameManager.Instance.KilledEnemy();
+        GameManager.Instance.EnemySpawner.SpawnEnemy();
+    }
+
+    /// <summary>
+    /// Handles the Shooting.
+    /// </summary>
+    private void HandleShoot()
+    {
+        if (_shootTimer > 0)
+        {
+            _shootTimer -= Time.deltaTime;
         }
 
-        else if (collision.collider.CompareTag("Breakable") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
+        else
         {
-            DoRotation();
+            _shootTimer = _originalShootTime;
+            GameManager.Instance.SpawnBullet(this);
         }
+    }
 
-        else if(collision.collider.CompareTag("Enemy") && _directionDic.GetValueOrDefault(EnemyRayCheck.EnemyRotateDirection.Forward).IsObstructed())
+    /// <summary>
+    /// Checks for Obstacles in Front.
+    /// </summary>
+    private void CheckForObstacles()
+    {
+        int currentObstacles = Physics.RaycastNonAlloc(transform.position, transform.forward, obstacles, 0.5f, obstaclesMask);
+        if (currentObstacles > 0)
         {
             DoRotation();
         }
-    }*/
+    }
+
+    /// <summary>
+    /// Changes Material Alphas
+    /// </summary>
+    /// <param name="alpha">Alpha Value for Materials</param>
+    private void SetMaterialsAlpha(float alpha)
+    {
+        foreach (var renderer in _renderers)
+        {
+            Color currentColor = renderer.material.color;
+            currentColor.a = alpha;
+            renderer.material.color = currentColor;
+        }
+    }
 }

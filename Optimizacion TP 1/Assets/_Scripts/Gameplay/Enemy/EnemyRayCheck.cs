@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class EnemyRayCheck : MonoBehaviour
+public class EnemyRayCheck : MonoBehaviourGameplay
 {
     [SerializeField] private SphereCollider _collider;
     [SerializeField] private bool _obstructed = false;
     [SerializeField] private Vector3 _rotateVector;
     [SerializeField] public EnemyRotateDirection RotateDirection;
+    [SerializeField] private LayerMask _layerMask;
 
     public enum EnemyRotateDirection
     {
@@ -25,6 +26,11 @@ public class EnemyRayCheck : MonoBehaviour
 
     public Vector3 GetRotateDirection => _rotateVector;
 
+    private void Awake()
+    {
+        CheckStartCollisions();
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +38,23 @@ public class EnemyRayCheck : MonoBehaviour
         if (_collider == null)
         {
             _collider = GetComponent<SphereCollider>();
+        }
+    }
+
+    public void CheckStartCollisions()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 0.25f, _layerMask);
+        foreach (var item in colliders)
+        {
+            if (item.CompareTag("Wall"))
+            {
+                _obstructed = true;
+            }
+
+            else if (item.CompareTag("Breakable"))
+            {
+                _obstructed = true;
+            }
         }
     }
 

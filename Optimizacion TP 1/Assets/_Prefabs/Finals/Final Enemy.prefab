@@ -62,6 +62,9 @@ MonoBehaviour:
   _obstructed: 0
   _rotateVector: {x: -1, y: 0, z: 0}
   RotateDirection: 2
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 768
 --- !u!1 &3061358143102472417
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,15 +128,21 @@ MonoBehaviour:
   - {fileID: 8587171951484969787}
   - {fileID: 5525624277547673130}
   - {fileID: 986842535305865614}
-  _spawnTime: 0
-  _enabled: 0
   _availableDirections: []
-  _availableDirectionsOld: []
-  _availableDirectionsNew: []
   frontCheck: {fileID: 5293817478211378081}
   obstaclesMask:
     serializedVersion: 2
     m_Bits: 768
+  _enemyRays:
+  - {fileID: 3061358142412004133}
+  - {fileID: 3061358142412004132}
+  - {fileID: 3061358142412004131}
+  - {fileID: 982941384}
+  _preSpawning: 1
+  _spawnTimer: 0.5
+  _originalSpawnTime: 0.5
+  _shootTimer: 0
+  _originalShootTime: 1
 --- !u!54 &3061358143102472423
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -222,9 +231,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 2416881420671535199}
-  _obstructed: 0
+  _obstructed: 1
   _rotateVector: {x: 0, y: 0, z: 1}
   RotateDirection: 0
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 768
 --- !u!1 &4435073375631886783
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,6 +299,9 @@ MonoBehaviour:
   _obstructed: 0
   _rotateVector: {x: 0, y: 0, z: -1}
   RotateDirection: 1
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 768
 --- !u!1 &6849911597110641432
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,6 +364,9 @@ MonoBehaviour:
   _obstructed: 0
   _rotateVector: {x: 1, y: 0, z: 0}
   RotateDirection: 3
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 768
 --- !u!1001 &3061358141576780265
 PrefabInstance:
   m_ObjectHideFlags: 0

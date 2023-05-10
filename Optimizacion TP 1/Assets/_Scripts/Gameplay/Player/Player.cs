@@ -101,7 +101,7 @@ public class Player : Character
         if(enemy != null)
         {
             Respawn();
-            enemy.Die();
+            enemy.OnDie();
         }
     }
 

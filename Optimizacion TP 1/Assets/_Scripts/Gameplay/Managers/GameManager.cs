@@ -56,6 +56,9 @@ public class GameManager : MonoBehaviourGameplay
         CanvasLevel.Popup.ShowPopup();
     }
 
+    /// <summary>
+    /// Keeps Track of Killed Enemies and Other Stats.
+    /// </summary>
     public void KilledEnemy()
     {
         _killedEnemies++;
