@@ -50,6 +50,8 @@ public class EnemyRayCheck : MonoBehaviourGameplay
         Collider[] colliders = Physics.OverlapSphere(transform.position, 0.25f, _layerMask);
         foreach (var item in colliders)
         {
+            _obstructed = false;
+
             if (item.CompareTag("Wall"))
             {
                 _obstructed = true;
@@ -60,6 +62,11 @@ public class EnemyRayCheck : MonoBehaviourGameplay
                 _obstructed = true;
             }
         }
+    }
+
+    public void Reset()
+    {
+        _obstructed = false;
     }
 
     private void OnTriggerEnter(Collider other)

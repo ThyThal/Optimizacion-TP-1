@@ -195,8 +195,16 @@ public class Enemy : Character
     /// </summary>
     public void OnDie()
     {
+        if (_preSpawning) return;
+
         // Freezes Velocity.
         _rb.velocity = Vector3.zero;
+
+        // MUST BE IMPROVED.
+        foreach (var ay in _enemyRays)
+        {
+            ay.Reset();
+        }
 
         // Manager Calls.
         GameManager.Instance.LevelManager.EnemySpawner.EnemyPool.Recycle(this.gameObject);
