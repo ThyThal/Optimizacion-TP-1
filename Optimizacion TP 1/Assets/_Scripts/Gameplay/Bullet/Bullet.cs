@@ -113,8 +113,7 @@ public class Bullet : MonoBehaviourGameplay
             GameManager.Instance.LevelManager.BulletPool.Recycle(this.gameObject);
             bulletBody.velocity = Vector3.zero;
         }
-
-        if (other.CompareTag("Breakable"))
+        else if (other.CompareTag("Breakable"))
         {
             switch (_type)
             {
