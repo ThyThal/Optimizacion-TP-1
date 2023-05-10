@@ -129,6 +129,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 10
   _damage: 100
+  _explosionRadius: 1
+  _explosionMask:
+    serializedVersion: 2
+    m_Bits: 704
+  _explodedObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _owner: 1
   _target: 0
   _type: 0
