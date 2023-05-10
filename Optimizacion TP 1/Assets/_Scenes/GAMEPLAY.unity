@@ -5702,7 +5702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ec826cf9d472e4d938f78cd5c238ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnAmount: 100
+  _spawnAmount: 4
   _spawnFrequency: 2.5
   _availableSpawnLocations:
   - {fileID: 4407266777309478273}
@@ -5711,7 +5711,7 @@ MonoBehaviour:
   - {fileID: 453189715}
   _enemiesPool: {fileID: 2064363435}
   _maxEnemies: 100
-  _maxAliveEnemies: 100
+  _maxAliveEnemies: 25
   _spawnedEnemies: 0
   _timer: 0
 --- !u!114 &2064363435

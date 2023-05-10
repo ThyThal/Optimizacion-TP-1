@@ -794,7 +794,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Optimizaci\xF3n TP1\nBattle City (NES - 1985)"
+  m_text: 'Optimizacion TP1
+
+    Battle City (NES - 1985)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b21873ba7f2d16f4c8beb65a4d1f57a7, type: 2}
   m_sharedMaterial: {fileID: -5183893355683216766, guid: b21873ba7f2d16f4c8beb65a4d1f57a7, type: 2}
