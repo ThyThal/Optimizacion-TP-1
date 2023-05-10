@@ -98,27 +98,32 @@ public class Enemy : Character
             }
         }
 
-        // Get Random Direction and Rotate
-        var collisionDirection = _availableDirections[Random.Range(0, _availableDirections.Count)];
-
-        switch (collisionDirection.RotateDirection)
+        if (_availableDirections.Count > 0)
         {
-            case EnemyRayCheck.EnemyRotateDirection.Forward:
-                transform.rotation = Quaternion.LookRotation(transform.forward);
-                Debug.Log("frente");
-                break;
+            // Get Random Direction and Rotate
+            var a = Random.Range(0, _availableDirections.Count);
+            var b = _availableDirections[a];
+            var collisionDirection = b;
 
-            case EnemyRayCheck.EnemyRotateDirection.Back:
-                transform.rotation = Quaternion.LookRotation(-transform.forward);
-                break;
+            switch (collisionDirection.RotateDirection)
+            {
+                case EnemyRayCheck.EnemyRotateDirection.Forward:
+                    transform.rotation = Quaternion.LookRotation(transform.forward);
+                    Debug.Log("frente");
+                    break;
 
-            case EnemyRayCheck.EnemyRotateDirection.Left:
-                transform.rotation = Quaternion.LookRotation(-transform.right);
-                break;
+                case EnemyRayCheck.EnemyRotateDirection.Back:
+                    transform.rotation = Quaternion.LookRotation(-transform.forward);
+                    break;
 
-            case EnemyRayCheck.EnemyRotateDirection.Right:
-                transform.rotation = Quaternion.LookRotation(transform.right);
-                break;
+                case EnemyRayCheck.EnemyRotateDirection.Left:
+                    transform.rotation = Quaternion.LookRotation(-transform.right);
+                    break;
+
+                case EnemyRayCheck.EnemyRotateDirection.Right:
+                    transform.rotation = Quaternion.LookRotation(transform.right);
+                    break;
+            }
         }
 
         // Clear List.
@@ -139,6 +144,12 @@ public class Enemy : Character
 
         // Initializes Health.
         Health.DoHeal(Health.MaxHealth);
+
+        // MUST BE IMPROVED.
+        foreach (var item in _enemyRays)
+        {
+            item.CheckStartCollisions();
+        }
 
         DoRotation();
     }
