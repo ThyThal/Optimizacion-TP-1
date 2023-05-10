@@ -12,7 +12,7 @@ public class MainMenu : MonoBehaviourUI
 {
     
     [SerializeField] GameObject panelMainMenu;
-    [SerializeField] GameObject panelCredits;
+    [SerializeField] private Credits _credits;
     private string levelScene = "GAMEPLAY";
 
     public override void Awake()
@@ -33,14 +33,13 @@ public class MainMenu : MonoBehaviourUI
 #endif
         Application.Quit();
     }
-    public void LoadCredits()
-    {
-        panelCredits.SetActive(true);
-        panelMainMenu.SetActive(false);
-    }
     public void LoadMainMenu()
     {
         panelMainMenu.SetActive(true);
-        panelCredits.SetActive(false);
+    }
+
+    public void ShowCredits()
+    {
+        _credits.ShowPopup();
     }
 }

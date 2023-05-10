@@ -555,7 +555,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7655130571219142888}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Popup, Assembly-CSharp
         m_MethodName: HidePopup
         m_Mode: 1
@@ -713,14 +713,14 @@ GameObject:
   - component: {fileID: 6687106610500594577}
   - component: {fileID: 1646815804538120660}
   - component: {fileID: 613777091027312865}
-  - component: {fileID: 7655130571219142888}
+  - component: {fileID: 4388758298938862272}
   m_Layer: 5
   m_Name: Credits
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6687106610500594577
 RectTransform:
   m_ObjectHideFlags: 0
@@ -780,7 +780,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7655130571219142888
+--- !u!114 &4388758298938862272
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -789,11 +789,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7509197299162725612}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60a01b105de5d98449c88cefc7a53917, type: 3}
+  m_Script: {fileID: 11500000, guid: b4d4cec6b3c7b884fa45bd0e1bcba35d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _deaths: {fileID: 0}
-  _time: {fileID: 0}
 --- !u!1 &8149942760388265917
 GameObject:
   m_ObjectHideFlags: 0

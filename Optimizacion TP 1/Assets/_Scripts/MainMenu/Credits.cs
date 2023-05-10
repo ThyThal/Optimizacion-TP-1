@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class CreditsScripts : MonoBehaviourUI
+public class Credits : MonoBehaviourUI
 {
     
     public void ShowPopup()
