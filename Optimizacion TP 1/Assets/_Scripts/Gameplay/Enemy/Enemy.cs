@@ -201,9 +201,9 @@ public class Enemy : Character
         _rb.velocity = Vector3.zero;
 
         // MUST BE IMPROVED.
-        foreach (var ay in _enemyRays)
+        foreach (var ray in _enemyRays)
         {
-            ay.Reset();
+            ray.Reset();
         }
 
         // Manager Calls.
